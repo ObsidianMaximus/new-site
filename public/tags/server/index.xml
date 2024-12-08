@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Server on Krishna&#39;s Webplace</title>
+    <link>https://krishnayadav.xyz/tags/server/</link>
+    <description>Recent content in Server on Krishna&#39;s Webplace</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 22 Jun 2024 20:35:26 +0530</lastBuildDate>
+    <atom:link href="https://krishnayadav.xyz/tags/server/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ubuntu Server Setup Part 2: Installing Nextcloud</title>
+      <link>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</link>
+      <pubDate>Sat, 22 Jun 2024 20:35:26 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</guid>
+      <description>&lt;p&gt;I finally setup my Ubuntu server quite well along with wifi drivers.&lt;/p&gt;
+&lt;p&gt;Next up, I had to install Nextcloud, because I wanted a cloud storage that could backup and sync photos, videos and other stuff from several devices at my home. Thus I looked up a tutorial on it and found one by Jay, which was extremely easy to follow and helped me setup my Nextcloud instance from scratch.&lt;/p&gt;
+&lt;h3 id=&#34;the-steps-to-setup-nextcloud&#34;&gt;The steps to setup Nextcloud&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;You should be using a normal user account, and should not be executing the commands as &amp;lsquo;root&amp;rsquo;. In case you are &amp;lsquo;root&amp;rsquo;, simply execute the following:&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>I finally setup my Ubuntu server quite well along with wifi drivers.</p>
+<p>Next up, I had to install Nextcloud, because I wanted a cloud storage that could backup and sync photos, videos and other stuff from several devices at my home. Thus I looked up a tutorial on it and found one by Jay, which was extremely easy to follow and helped me setup my Nextcloud instance from scratch.</p>
+<h3 id="the-steps-to-setup-nextcloud">The steps to setup Nextcloud</h3>
+<ol>
+<li>
+<p>You should be using a normal user account, and should not be executing the commands as &lsquo;root&rsquo;. In case you are &lsquo;root&rsquo;, simply execute the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">adduser &lt;Enter your desired username here&gt;
+</span></span><span class="line"><span class="cl">usermod -aG sudo &lt;Enter the username you <span class="nb">set</span> above&gt;
+</span></span></code></pre></div></li>
+<li>
+<p>Update the system&rsquo;s cache and also apply any pending updates with the following command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update <span class="o">&amp;&amp;</span> sudo apt dist-upgrade
+</span></span></code></pre></div></li>
+<li>
+<p>Now, let us download and install php, mariadb and apache (along with some additional dependencies and required packages):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install libmagickcore-6.q16-6-extra php php-apcu php-bcmath php-cli php-common php-curl php-gd php-gmp php-imagick php-intl php-mbstring php-mysql php-zip php-xml apache2 unzip mariadb-server redis-server php-redis -y
+</span></span></code></pre></div><p><em>Note:</em> You can check if apache is running [Should be active and enabled] with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl status apache2
+</span></span></code></pre></div></li>
+<li>
+<p>Download and unzip nextcloud with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget https://download.nextcloud.com/server/releases/latest.zip
+</span></span><span class="line"><span class="cl">unzip latest.zip
+</span></span></code></pre></div><p>We will now change the ownership of nextcloud to the group and user &lsquo;www-data&rsquo; and move the nextcloud folder into the &lsquo;/var/www/&rsquo; directory as SOP. The &lsquo;www-data&rsquo; is a user (and group) created by default when we installed apache2. The <strong>-R</strong> flag changes ownership of all files and folders within the nextcloud directory recursively.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chown www-data:www-data -R nextcloud
+</span></span><span class="line"><span class="cl">sudo mv nextcloud /var/www/
+</span></span></code></pre></div></li>
+<li>
+<p>PHP needs some modules to be enabled for it&rsquo;s functioning. Do so with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo phpenmod imagick intl bcmath gmp  
+</span></span></code></pre></div></li>
+<li>
+<p>Let us start configuring database, which is required to base our Nextcloud on. We must first run a setup of mysql to secure our installation. To do so, run:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mysql_secure_installation
+</span></span></code></pre></div><p>It will open a bash asking you to fill certain details.</p>
+<ul>
+<li>The first prompt will be asking for default root password, just press Enter button to skip this option.</li>
+<li>Next it will ask for Unix socket, <strong>type &rsquo;n&rsquo;</strong> and proceed.</li>
+<li>Then it will ask to enter a password, <strong>type &lsquo;y&rsquo;</strong> and then enter a password (store it securely).</li>
+<li>Just keep pressing Enter button to skip through rest of the options (Capital letter means default option, <strong>&lsquo;Y&rsquo;</strong> in all these options).</li>
+</ul>
+</li>
+<li>
+<p>Once done with this, we must now configure mariadb. Open it&rsquo;s shell by:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mariadb
+</span></span></code></pre></div><p>In this shell, type these commands (replace where marked):</p>
+<ul>
+<li><code>CREATE DATABASE nextcloud;</code></li>
+<li><code>GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY &lt;'Enter a secure password here for the db. Do keep the password inside single inverted commas.'&gt;;</code></li>
+<li><code>FLUSH PRIVILEGES;</code></li>
+<li><code>exit;</code></li>
+</ul>
+<p><strong>NOTE:</strong> Store this password very securely, as it can be misused if leaked.</p>
+</li>
+<li>
+<p>We should now generate our own SSL/TLS certificate to use with our server (In case you have a static IP, you should use Let&rsquo;s encrypt&rsquo;s certificate using <a href="https://certbot.eff.org/">Certbot</a>)</p>
+<p><strong>NOTE:</strong> This command will ask you several question. Answer whatever you want to fill in (won&rsquo;t have much effect).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir <span class="nv">$HOME</span>/certs <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="nv">$HOME</span>/certs/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days <span class="m">3650</span> -nodes
+</span></span></code></pre></div><p><strong>NOTE:</strong> Please store both the key.pem and cert.pem somewhere secured. Also import cert.pem as an Authorities certificate in your browser to avoid the browser from flagging our nextcloud instance as a &lsquo;Not Secure&rsquo; website everytime we visit it.</p>
+</li>
+<li>
+<p>Now we must disable the default webpage of apache, place our config file in the apache directory and enable the config for apache to load the nextcloud page (Along with adding Strict Transport Security).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo a2dissite 000-default.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo nano /etc/apache2/sites-available/nextcloud.conf
+</span></span></code></pre></div><p>In the text editor which opens, paste the following code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&lt;VirtualHost *:80&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    RewriteEngine On
+</span></span><span class="line"><span class="cl">    RewriteCond %<span class="o">{</span>SERVER_PORT<span class="o">}</span> !443
+</span></span><span class="line"><span class="cl">    RewriteRule ^<span class="o">(</span>/<span class="o">(</span>.*<span class="o">))</span>?$ https://%<span class="o">{</span>HTTP_HOST<span class="o">}</span>/<span class="nv">$1</span> <span class="o">[</span><span class="nv">R</span><span class="o">=</span>301,L<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;/VirtualHost&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;VirtualHost *:443&gt;               
+</span></span><span class="line"><span class="cl">    DocumentRoot <span class="s2">&#34;/var/www/nextcloud&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    SSLCertificateFile <span class="nv">$HOME</span>/certs/cert.pem
+</span></span><span class="line"><span class="cl">    SSLCertificateKeyFile <span class="nv">$HOME</span>/certs/key.pem
+</span></span><span class="line"><span class="cl">    SSLEngine on
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    &lt;Directory <span class="s2">&#34;/var/www/nextcloud/&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">        Options MultiViews FollowSymlinks
+</span></span><span class="line"><span class="cl">        AllowOverride All
+</span></span><span class="line"><span class="cl">        Order allow,deny
+</span></span><span class="line"><span class="cl">        Allow from all
+</span></span><span class="line"><span class="cl">    &lt;/Directory&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    TransferLog /var/log/apache2/nextcloud_access.log
+</span></span><span class="line"><span class="cl">    ErrorLog /var/log/apache2/nextcloud_error.log
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    &lt;IfModule mod_headers.c&gt;
+</span></span><span class="line"><span class="cl">        Header always <span class="nb">set</span> Strict-Transport-Security <span class="s2">&#34;max-age=15552000; includeSubDomains&#34;</span>
+</span></span><span class="line"><span class="cl">    &lt;/IfModule&gt;
+</span></span><span class="line"><span class="cl">&lt;/VirtualHost&gt;
+</span></span></code></pre></div><p>Save this file by doing ctrl+o and ctrl+x. Then enable this config file using:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo a2ensite nextcloud.conf
+</span></span></code></pre></div></li>
+<li>
+<p>Let us tune PHP to make our server run more efficiently:</p>
+<p><strong>Note</strong>: PHP versions can differ on different distributions, like 8.3 on Ubuntu 24 LTS and 8.1 on 22 LTS, thus press tab as directed below:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/php/&lt;press tab to autocomplete here&gt;/apache2/php.ini
+</span></span></code></pre></div><p>Find and edit the file by change stuff inside it according to this (Replace the areas where you see fit. To remove a comment, remove the &lsquo;;&rsquo; semi-colon in front of the line in the file):</p>
+<ul>
+<li>memory_limit = 2G</li>
+<li>upload_max_filesize = 20G</li>
+<li>max_execution_time = 360</li>
+<li>post_max_size = 20G</li>
+<li>date.timezone = Asia/Kolkata</li>
+<li>opcache.enable=1</li>
+<li>opcache.interned_strings_buffer=16</li>
+<li>opcache.max_accelerated_files=10000</li>
+<li>opcache.memory_consumption=128</li>
+<li>opcache.save_comments=1</li>
+<li>opcache.revalidate_freq=1</li>
+</ul>
+</li>
+<li>
+<p>Some modules are required by apache2, so enable them for use with nextcloud.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo a2enmod dir env headers mime rewrite ssl
+</span></span></code></pre></div></li>
+<li>
+<p>Enable the apcu module in php. This module caches data in memory, so helps in reducing database queries and file system operations. This also allows the occ script to function.</p>
+<p><strong>Note</strong>: PHP versions can differ on different distributions, like 8.3 on Ubuntu 24 LTS and 8.1 on 22 LTS, thus press tab as directed below:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;apc.enable_cli=1&#34;</span> <span class="p">|</span> sudo tee -a /etc/php/&lt;press tab here&gt;/mods-available/apcu.ini
+</span></span></code></pre></div></li>
+<li>
+<p>Finally, let us restart apache2 to get nextcloud working:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart apache2
+</span></span></code></pre></div></li>
+</ol>
+<hr>
+<h3 id="lets-configure-nextcloud-via-its-webpage">Let&rsquo;s configure nextcloud via its webpage</h3>
+<p>Create an administrator account in the webpage that opens when you visit the IP address / URL that you attached to the server. Then when you scroll down, it will ask for your database details. Fill according to what you entered in the above steps (db account and name should be &rsquo;nextcloud&rsquo; and password will be the one you entered while configuring mariadb, step 7).</p>
+<p>Sign in and setup nextcloud as you like. Next, head over to the Admin settings by clicking on your profile on top right side and then on &ldquo;Administration settings&rdquo;.</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/admin_settings_nextcloud.png#center"/> 
+</figure>
+
+<p>In here, you will see the various issues that nextcloud has automatically detected with the installation.</p>
+<h4 id="some-of-the-errors-that-i-had-received-and-their-solutions">Some of the errors that I had received and their solutions:</h4>
+<ol>
+<li>
+<p>If you get a very big error which states that the database is missing some indices, simply do as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chmod +x /var/www/nextcloud/occ                                      
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo -u <span class="s1">&#39;www-data&#39;</span> /var/www/nextcloud/occ db:add-missing-indices          
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo chmod -x /var/www/nextcloud/occ                                      
+</span></span></code></pre></div><p>This adds the missing indices using occ script provided by nextcloud themselves, which helps in correcting issues with nextcloud.</p>
+</li>
+<li>
+<p>Enable memory caching:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /var/www/nextcloud/config/config.php
+</span></span></code></pre></div><p>In the text editor which opens, add the following line somewhere in between the other lines (before the closing bracktes atleast):</p>
+<ul>
+<li>&lsquo;memcache.local&rsquo; =&gt; &lsquo;\OC\Memcache\APCu&rsquo;,</li>
+<li>&lsquo;default_phone_region&rsquo; =&gt; &lsquo;IN&rsquo;,</li>
+</ul>
+<p><strong>NOTE:</strong> Replace phone region code to whatever your region code is. Also, remember to have those commas in the end of each of the above 2 lines.</p>
+</li>
+<li>
+<p>Additional security parameter is to lock down the config.php file to root group, as it contains sensitive information like our database password.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chmod <span class="m">660</span> /var/www/nextcloud/config/config.php
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo chown root:www-data /var/www/nextcloud/config/config.php
+</span></span></code></pre></div></li>
+</ol>
+<hr>
+<h3 id="conclusion">Conclusion</h3>
+<p>After doing this much, you can restart apache and/or even reboot your system once.</p>
+<p>Now I think you will be good to go with your own personal cloud storage. Remember to keep your system updated and files backed up (try to follow 3-2-1 rule) to be safe.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Ubuntu Server Setup Part-1</title>
+      <link>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-1/</link>
+      <pubDate>Tue, 30 Apr 2024 19:46:03 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-1/</guid>
+      <description>&lt;p&gt;I was wanting to learn on how to setup my servers and host stuff on them, but to host a server online, one needs to spend some amount of money on them, which i really didn&amp;rsquo;t want to. But then i remembered that i have one old dusty home computer that had been lying in my home since several years, while not really being used anymore.&lt;/p&gt;
+&lt;p&gt;So i decided to use this opportunity to reuse the same computer for my server tasks and in this way, i will be saving up on those server costs that i would have to pay [electricity is cheap here].&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>I was wanting to learn on how to setup my servers and host stuff on them, but to host a server online, one needs to spend some amount of money on them, which i really didn&rsquo;t want to. But then i remembered that i have one old dusty home computer that had been lying in my home since several years, while not really being used anymore.</p>
+<p>So i decided to use this opportunity to reuse the same computer for my server tasks and in this way, i will be saving up on those server costs that i would have to pay [electricity is cheap here].</p>
+<p>But i had a hurdle in my path, and that was my old monitor not working, due to which i was unable to get my cpu to give a basic display as it had only VGA output. And well, i couldn&rsquo;t really use this PC with my current monitor, as this monitor supports only HDMI and Display Port. I did have one VGA-to-HDMI converter lying around with me, but that had malfunctioned as well.</p>
+<p>This had me worried for some time before i thought of just using the gpu in my current setup on the older one. Sadly, this had another issue. The older desktop is an Intel Pentium E5400, and has a motherboard which is of LGA775 socket type. Now, this motherboard has the onboard power supply cables right above the PCIe slot, which rendered me placing my hefty gpu in that slot useless.</p>
+<p>Then i had to think a bit more and got an idea of just taking out the HDD from the old PC and placing it in my working desktop [silly me]. I attached the HDD to my newer PC and started the machine.</p>
+<p>At first, i went for the trusted server OS, Debian. Flashed it onto my usb drive and tried live booting only to be suprised with no display. Forgot that i had to enable CSM from BIOS and then turn on &ldquo;legacy only&rdquo; mode to allow the usb to boot [had partitioned it as MSDOS/MBR, silly me, again..]. This was again because the older computer had legacy BIOS only and i had to test the current HDD to ensure that it did boot alright under legacy conditions.</p>
+<p>Adjusted boot options and booted the PC only to be met by a weirdly enlarged debian graphical installer. Pressed enter and the PC restarted and i was met with just blurred out lines and teared display with the text not legible at all. Tried rebooting several times from my usb drive but was met with the same issue again and again. Finally got quite frustrated and flashed ubuntu server on the drive.</p>
+<p>Booted from it and to my surprise, it turned on smoothly. At first the screen was enlarged but when i progressed the installation, it auto-adjusted normally and matched my 24&quot; screen resolution quite well. Installed the ubuntu server, which was pretty straight forward, thanks to the KIS ways of Ubuntu.</p>
+<p>Then my next task was getting my wifi modem or should i say TP-Link USB Network Adapter (Archer T2U Plus) in working condition, as i planned to keep the pc in an isolated place. <strong>The instructions for the same can be found <a href="https://github.com/ObsidianMaximus/wifidrivers/blob/master/commands_for_drivers.sh">here</a>.</strong> This adapter uses a Realtek <strong>RTL8821AU Chipset</strong> at its heart, which fortunately has linux drivers available, thanks to aircrack-ng!
+Executing the commands in the script installed all it&rsquo;s drivers. Now next, i had to enable it and connect to my home network to make the pc accessible by my other devices.</p>
+<p>To do this, here is an excellent guide from <a href="https://ubuntu.com/core/docs/networkmanager/configure-wifi-connections">Ubuntu</a>!</p>
+<p>As for the steps i followed, they were as follow:</p>
+<ul>
+<li>Firstly, i had to install <strong>network-manager</strong> as it was not present by default on the default server installation [ strange? ].</li>
+<li>Next, i ran <strong><code>nmcli d</code></strong> command to get the name of the wifi device.</li>
+<li>Then, to turn it on, issue: <strong><code>nmcli r wifi on</code></strong> and list all the scanned wifi networks with: <strong><code>nmcli d wifi list</code></strong></li>
+<li>To connect to one of the networks listed, you have to type: <strong><code>nmcli d wifi connect &lt;name of the wifi&gt; password &lt;password for that wifi&gt;</code></strong>  [Replace stuff within &lt; &gt; with what you have got listed in the above step.]</li>
+<li>It took several seconds but after that it did get connected to my wifi network! I restarted my pc without the ethernet cable and the wifi did indeed work, although on startup, one of the checks done by systemd made me wait for quite a long time, more on that <a href="https://askubuntu.com/questions/972215/a-start-job-is-running-for-wait-for-network-to-be-configured-ubuntu-server-17-1">here</a>.</li>
+</ul>
+<p>I then took out the HDD and inserted it into my older desktop and sadly, even after it being turned on for several minutes, i had no green led light show up on the wifi usb adapter [which is used to indicate that the modem is in use by the OS], thus, the older pc was <em>not</em> turning on properly and i had no way to get to diagnosing the issue as i just didn&rsquo;t have a display [running it headless].</p>
+<p>I think that I will have to indeed get my monitor repaired to continue on with my experimentations on my newly built home server.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

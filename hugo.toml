@@ -1,4 +1,126 @@
-baseURL = 'https://example.org/'
-languageCode = 'en-us'
-title = 'My New Hugo Site'
-theme = 'PaperMod'
+baseURL = "https://krishnayadav.xyz/"
+title = "Krishna's Webplace"
+paginate = 5
+theme = "PaperMod"
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+[minify]
+#disableXML = true
+#minifyOutput = true
+
+[params]
+env = "production"
+title = "Krishna's Webplace"
+description = "Welcome!"
+keywords = [ "Blog", "Portfolio", "Tech" ]
+DateFormat = "January 2, 2006"
+defaultTheme = "auto"
+ShowReadingTime = true
+ShowShareButtons = true
+ShowPostNavLinks = true
+ShowBreadCrumbs = true
+ShowCodeCopyButtons = true
+ShowWordCount = true
+ShowRssButtonInSectionTermList = true
+ShowFullTextinRSS = true  # Enabled to give full rss feed instead of a summary of it.
+
+  [params.assets]
+  favicon = "favicon.png"
+  favicon16x16 = "favicon.png"
+  favicon32x32 = "favicon.png"
+
+  [params.label]
+  text = "Hello there, welcome!"
+  #icon = "/favicon.png"
+  #iconHeight = 35
+
+  [params.profileMode]
+  enabled = true
+  title = "Krishna's Webplace"
+  subtitle = """I usually write things here that I found useful or that helped me in some way or the other. 
+
+  Hope you too find something helpful here!"""
+  imageUrl = "favicon.png"
+  imageWidth = 180
+  imageHeight = 180
+  imageTitle = "Hello :)"
+
+    [[params.profileMode.buttons]]
+    name = "Blogs"
+    url = "posts"
+
+  [params.homeInfoParams]
+  Title = "Hello there, welcome!"
+  Content = """
+  Welcome to my webplace,
+  I write things that I find would be useful for me, or maybe someone like you."""
+
+  [[params.socialIcons]]
+  name = "telegram"
+  url = "https://t.me/liegemaximo"
+
+  [[params.socialIcons]]
+  name = "github"
+  url = "https://github.com/obsidianmaximus"
+
+  [[params.socialIcons]]
+  name = "RSS"
+  url = "index.xml"
+
+  [[params.socialIcons]]
+  name = "email"
+  url = "mailto:krishna@krishnayadav.xyz"
+
+  [params.cover]
+  hidden = true
+  hiddenInList = true
+  hiddenInSingle = true
+
+  [params.editPost]
+  URL = "https://github.com/obsidianmaximus/obsidianmaximus.github.io/content"
+  Text = "Suggest Changes"
+  appendFilePath = true
+
+  [params.fuseOpts]
+  isCaseSensitive = false
+  shouldSort = true
+  location = 0
+  distance = 1_000
+  threshold = 0.4
+  minMatchCharLength = 0
+  limit = 10
+  keys = [ "title", "permalink", "summary", "content" ]
+
+
+[[menu.main]]
+identifier = "Search"
+name = "Search"
+url = "/search/"
+weight = 10
+
+[[menu.main]]
+identifier = "Tags"
+name = "Tags"
+url = "/tags/"
+weight = 20
+
+[[menu.main]]
+identifier = "Archive"
+name = "Archive"
+url = "/archives/"
+weight = 30
+
+[[menu.main]]
+identifier = "Donate"
+name = "Donate"
+url = "/donate/"
+weight = 40
+
+[markup.highlight]
+noClasses = false
+
+[outputs]
+home = [ "HTML", "RSS", "JSON" ]    # Enables rss and search to work.

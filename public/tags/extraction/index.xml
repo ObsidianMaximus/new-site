@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Extraction on Krishna&#39;s Webplace</title>
+    <link>http://localhost:1313/tags/extraction/</link>
+    <description>Recent content in Extraction on Krishna&#39;s Webplace</description>
+    <image>
+      <title>Krishna&#39;s Webplace</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 24 Apr 2024 21:53:31 +0530</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/extraction/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Boot Image Extraction Guide</title>
+      <link>http://localhost:1313/posts/boot-image-extraction-guide/</link>
+      <pubDate>Wed, 24 Apr 2024 21:53:31 +0530</pubDate>
+      <guid>http://localhost:1313/posts/boot-image-extraction-guide/</guid>
+      <description>&lt;p&gt;Guide on how to extract a boot image from any Android phone [Requires Magisk and Computer]&lt;/p&gt;
+&lt;h2 id=&#34;getting-started&#34;&gt;Getting started!&lt;/h2&gt;
+&lt;p&gt;Accessing and modifying system files on your device typically requires superuser permissions. To extract the boot image, we&amp;rsquo;ll need a root environment. We&amp;rsquo;ll achieve this by using Magisk.&lt;/p&gt;
+&lt;h4 id=&#34;procedure&#34;&gt;Procedure&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;First, make sure you install TWRP and then flash Magisk through it.&lt;/li&gt;
+&lt;li&gt;Setup Magisk in your phone.&lt;/li&gt;
+&lt;li&gt;Connect your phone to your Computer and type adb shell [Ensure that you have adb setup properly].&lt;/li&gt;
+&lt;li&gt;Now, become root by typing &lt;strong&gt;su&lt;/strong&gt; in the shell on your PC.&lt;/li&gt;
+&lt;li&gt;Copy/Paste the following code in the shell.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; PARTITION in &lt;span class=&#34;s2&#34;&gt;&amp;#34;boot&amp;#34;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;boot_a&amp;#34;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;boot_b&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nv&#34;&gt;BLOCK&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;find /dev/block &lt;span class=&#34;se&#34;&gt;\(&lt;/span&gt; -type b -o -type c -o -type l &lt;span class=&#34;se&#34;&gt;\)&lt;/span&gt; -iname &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PARTITION&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; -print -quit 2&amp;gt;/dev/null&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; -n &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$BLOCK&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PARTITION&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;readlink -f &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$BLOCK&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This command will display the boot partition paths for both A/B and A-only devices.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>Guide on how to extract a boot image from any Android phone [Requires Magisk and Computer]</p>
+<h2 id="getting-started">Getting started!</h2>
+<p>Accessing and modifying system files on your device typically requires superuser permissions. To extract the boot image, we&rsquo;ll need a root environment. We&rsquo;ll achieve this by using Magisk.</p>
+<h4 id="procedure">Procedure</h4>
+<ol>
+<li>First, make sure you install TWRP and then flash Magisk through it.</li>
+<li>Setup Magisk in your phone.</li>
+<li>Connect your phone to your Computer and type adb shell [Ensure that you have adb setup properly].</li>
+<li>Now, become root by typing <strong>su</strong> in the shell on your PC.</li>
+<li>Copy/Paste the following code in the shell.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="k">for</span> PARTITION in <span class="s2">&#34;boot&#34;</span> <span class="s2">&#34;boot_a&#34;</span> <span class="s2">&#34;boot_b&#34;</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">BLOCK</span><span class="o">=</span><span class="k">$(</span>find /dev/block <span class="se">\(</span> -type b -o -type c -o -type l <span class="se">\)</span> -iname <span class="s2">&#34;</span><span class="nv">$PARTITION</span><span class="s2">&#34;</span> -print -quit 2&gt;/dev/null<span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[</span> -n <span class="s2">&#34;</span><span class="nv">$BLOCK</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$PARTITION</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="k">$(</span>readlink -f <span class="s2">&#34;</span><span class="nv">$BLOCK</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p>This command will display the boot partition paths for both A/B and A-only devices.</p>
+<p><strong>Note: On <a href="https://source.android.com/docs/core/ota/ab">A/B devices</a>, the loop command will display the boot partition paths for both slots, something like this!</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">boot_a</span> <span class="o">=</span> /dev/block/sda40
+</span></span><span class="line"><span class="cl"><span class="nv">boot_b</span> <span class="o">=</span> /dev/block/sda41
+</span></span></code></pre></div><p>In this case, you can extract the image corresponding to your currently active slot.To determine the active slot, enter the command <code>getprop ro.boot.slot_suffix</code>. If the output is _a, use the path for boot_a; otherwise, use the path for boot_b.</p>
+<ol start="6">
+<li>Finally, use the following command to extract the image from the specified boot path:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>&lt;boot_partition_path&gt; <span class="nv">of</span><span class="o">=</span>&lt;output_path&gt;
+</span></span></code></pre></div><p>For example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>/dev/block/mmcblk0p42 <span class="nv">of</span><span class="o">=</span>/sdcard/boot_a.img
+</span></span></code></pre></div><p>I hope this did work for you, as it did indeed work for me!</p>
+<p>CREDITS : <a href="https://gist.github.com/gitclone-url/a1f693b64d8f8701ec24477a2ccaab87">Here</a></p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

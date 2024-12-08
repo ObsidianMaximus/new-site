@@ -1,11 +1,549 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>My New Hugo Site</title>
-    <link>http://localhost:1313/</link>
-    <description>Recent content on My New Hugo Site</description>
+    <title>Krishna&#39;s Webplace</title>
+    <link>https://krishnayadav.xyz/</link>
+    <description>Recent content on Krishna&#39;s Webplace</description>
     <generator>Hugo -- 0.139.3</generator>
-    <language>en-us</language>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sat, 22 Jun 2024 20:35:26 +0530</lastBuildDate>
+    <atom:link href="https://krishnayadav.xyz/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ubuntu Server Setup Part 2: Installing Nextcloud</title>
+      <link>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</link>
+      <pubDate>Sat, 22 Jun 2024 20:35:26 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</guid>
+      <description>&lt;p&gt;I finally setup my Ubuntu server quite well along with wifi drivers.&lt;/p&gt;
+&lt;p&gt;Next up, I had to install Nextcloud, because I wanted a cloud storage that could backup and sync photos, videos and other stuff from several devices at my home. Thus I looked up a tutorial on it and found one by Jay, which was extremely easy to follow and helped me setup my Nextcloud instance from scratch.&lt;/p&gt;
+&lt;h3 id=&#34;the-steps-to-setup-nextcloud&#34;&gt;The steps to setup Nextcloud&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;You should be using a normal user account, and should not be executing the commands as &amp;lsquo;root&amp;rsquo;. In case you are &amp;lsquo;root&amp;rsquo;, simply execute the following:&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>I finally setup my Ubuntu server quite well along with wifi drivers.</p>
+<p>Next up, I had to install Nextcloud, because I wanted a cloud storage that could backup and sync photos, videos and other stuff from several devices at my home. Thus I looked up a tutorial on it and found one by Jay, which was extremely easy to follow and helped me setup my Nextcloud instance from scratch.</p>
+<h3 id="the-steps-to-setup-nextcloud">The steps to setup Nextcloud</h3>
+<ol>
+<li>
+<p>You should be using a normal user account, and should not be executing the commands as &lsquo;root&rsquo;. In case you are &lsquo;root&rsquo;, simply execute the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">adduser &lt;Enter your desired username here&gt;
+</span></span><span class="line"><span class="cl">usermod -aG sudo &lt;Enter the username you <span class="nb">set</span> above&gt;
+</span></span></code></pre></div></li>
+<li>
+<p>Update the system&rsquo;s cache and also apply any pending updates with the following command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update <span class="o">&amp;&amp;</span> sudo apt dist-upgrade
+</span></span></code></pre></div></li>
+<li>
+<p>Now, let us download and install php, mariadb and apache (along with some additional dependencies and required packages):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install libmagickcore-6.q16-6-extra php php-apcu php-bcmath php-cli php-common php-curl php-gd php-gmp php-imagick php-intl php-mbstring php-mysql php-zip php-xml apache2 unzip mariadb-server redis-server php-redis -y
+</span></span></code></pre></div><p><em>Note:</em> You can check if apache is running [Should be active and enabled] with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl status apache2
+</span></span></code></pre></div></li>
+<li>
+<p>Download and unzip nextcloud with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget https://download.nextcloud.com/server/releases/latest.zip
+</span></span><span class="line"><span class="cl">unzip latest.zip
+</span></span></code></pre></div><p>We will now change the ownership of nextcloud to the group and user &lsquo;www-data&rsquo; and move the nextcloud folder into the &lsquo;/var/www/&rsquo; directory as SOP. The &lsquo;www-data&rsquo; is a user (and group) created by default when we installed apache2. The <strong>-R</strong> flag changes ownership of all files and folders within the nextcloud directory recursively.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chown www-data:www-data -R nextcloud
+</span></span><span class="line"><span class="cl">sudo mv nextcloud /var/www/
+</span></span></code></pre></div></li>
+<li>
+<p>PHP needs some modules to be enabled for it&rsquo;s functioning. Do so with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo phpenmod imagick intl bcmath gmp  
+</span></span></code></pre></div></li>
+<li>
+<p>Let us start configuring database, which is required to base our Nextcloud on. We must first run a setup of mysql to secure our installation. To do so, run:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mysql_secure_installation
+</span></span></code></pre></div><p>It will open a bash asking you to fill certain details.</p>
+<ul>
+<li>The first prompt will be asking for default root password, just press Enter button to skip this option.</li>
+<li>Next it will ask for Unix socket, <strong>type &rsquo;n&rsquo;</strong> and proceed.</li>
+<li>Then it will ask to enter a password, <strong>type &lsquo;y&rsquo;</strong> and then enter a password (store it securely).</li>
+<li>Just keep pressing Enter button to skip through rest of the options (Capital letter means default option, <strong>&lsquo;Y&rsquo;</strong> in all these options).</li>
+</ul>
+</li>
+<li>
+<p>Once done with this, we must now configure mariadb. Open it&rsquo;s shell by:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mariadb
+</span></span></code></pre></div><p>In this shell, type these commands (replace where marked):</p>
+<ul>
+<li><code>CREATE DATABASE nextcloud;</code></li>
+<li><code>GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY &lt;'Enter a secure password here for the db. Do keep the password inside single inverted commas.'&gt;;</code></li>
+<li><code>FLUSH PRIVILEGES;</code></li>
+<li><code>exit;</code></li>
+</ul>
+<p><strong>NOTE:</strong> Store this password very securely, as it can be misused if leaked.</p>
+</li>
+<li>
+<p>We should now generate our own SSL/TLS certificate to use with our server (In case you have a static IP, you should use Let&rsquo;s encrypt&rsquo;s certificate using <a href="https://certbot.eff.org/">Certbot</a>)</p>
+<p><strong>NOTE:</strong> This command will ask you several question. Answer whatever you want to fill in (won&rsquo;t have much effect).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir <span class="nv">$HOME</span>/certs <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="nv">$HOME</span>/certs/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days <span class="m">3650</span> -nodes
+</span></span></code></pre></div><p><strong>NOTE:</strong> Please store both the key.pem and cert.pem somewhere secured. Also import cert.pem as an Authorities certificate in your browser to avoid the browser from flagging our nextcloud instance as a &lsquo;Not Secure&rsquo; website everytime we visit it.</p>
+</li>
+<li>
+<p>Now we must disable the default webpage of apache, place our config file in the apache directory and enable the config for apache to load the nextcloud page (Along with adding Strict Transport Security).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo a2dissite 000-default.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo nano /etc/apache2/sites-available/nextcloud.conf
+</span></span></code></pre></div><p>In the text editor which opens, paste the following code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&lt;VirtualHost *:80&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    RewriteEngine On
+</span></span><span class="line"><span class="cl">    RewriteCond %<span class="o">{</span>SERVER_PORT<span class="o">}</span> !443
+</span></span><span class="line"><span class="cl">    RewriteRule ^<span class="o">(</span>/<span class="o">(</span>.*<span class="o">))</span>?$ https://%<span class="o">{</span>HTTP_HOST<span class="o">}</span>/<span class="nv">$1</span> <span class="o">[</span><span class="nv">R</span><span class="o">=</span>301,L<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;/VirtualHost&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;VirtualHost *:443&gt;               
+</span></span><span class="line"><span class="cl">    DocumentRoot <span class="s2">&#34;/var/www/nextcloud&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    SSLCertificateFile <span class="nv">$HOME</span>/certs/cert.pem
+</span></span><span class="line"><span class="cl">    SSLCertificateKeyFile <span class="nv">$HOME</span>/certs/key.pem
+</span></span><span class="line"><span class="cl">    SSLEngine on
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    &lt;Directory <span class="s2">&#34;/var/www/nextcloud/&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">        Options MultiViews FollowSymlinks
+</span></span><span class="line"><span class="cl">        AllowOverride All
+</span></span><span class="line"><span class="cl">        Order allow,deny
+</span></span><span class="line"><span class="cl">        Allow from all
+</span></span><span class="line"><span class="cl">    &lt;/Directory&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    TransferLog /var/log/apache2/nextcloud_access.log
+</span></span><span class="line"><span class="cl">    ErrorLog /var/log/apache2/nextcloud_error.log
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    &lt;IfModule mod_headers.c&gt;
+</span></span><span class="line"><span class="cl">        Header always <span class="nb">set</span> Strict-Transport-Security <span class="s2">&#34;max-age=15552000; includeSubDomains&#34;</span>
+</span></span><span class="line"><span class="cl">    &lt;/IfModule&gt;
+</span></span><span class="line"><span class="cl">&lt;/VirtualHost&gt;
+</span></span></code></pre></div><p>Save this file by doing ctrl+o and ctrl+x. Then enable this config file using:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo a2ensite nextcloud.conf
+</span></span></code></pre></div></li>
+<li>
+<p>Let us tune PHP to make our server run more efficiently:</p>
+<p><strong>Note</strong>: PHP versions can differ on different distributions, like 8.3 on Ubuntu 24 LTS and 8.1 on 22 LTS, thus press tab as directed below:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/php/&lt;press tab to autocomplete here&gt;/apache2/php.ini
+</span></span></code></pre></div><p>Find and edit the file by change stuff inside it according to this (Replace the areas where you see fit. To remove a comment, remove the &lsquo;;&rsquo; semi-colon in front of the line in the file):</p>
+<ul>
+<li>memory_limit = 2G</li>
+<li>upload_max_filesize = 20G</li>
+<li>max_execution_time = 360</li>
+<li>post_max_size = 20G</li>
+<li>date.timezone = Asia/Kolkata</li>
+<li>opcache.enable=1</li>
+<li>opcache.interned_strings_buffer=16</li>
+<li>opcache.max_accelerated_files=10000</li>
+<li>opcache.memory_consumption=128</li>
+<li>opcache.save_comments=1</li>
+<li>opcache.revalidate_freq=1</li>
+</ul>
+</li>
+<li>
+<p>Some modules are required by apache2, so enable them for use with nextcloud.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo a2enmod dir env headers mime rewrite ssl
+</span></span></code></pre></div></li>
+<li>
+<p>Enable the apcu module in php. This module caches data in memory, so helps in reducing database queries and file system operations. This also allows the occ script to function.</p>
+<p><strong>Note</strong>: PHP versions can differ on different distributions, like 8.3 on Ubuntu 24 LTS and 8.1 on 22 LTS, thus press tab as directed below:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;apc.enable_cli=1&#34;</span> <span class="p">|</span> sudo tee -a /etc/php/&lt;press tab here&gt;/mods-available/apcu.ini
+</span></span></code></pre></div></li>
+<li>
+<p>Finally, let us restart apache2 to get nextcloud working:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl restart apache2
+</span></span></code></pre></div></li>
+</ol>
+<hr>
+<h3 id="lets-configure-nextcloud-via-its-webpage">Let&rsquo;s configure nextcloud via its webpage</h3>
+<p>Create an administrator account in the webpage that opens when you visit the IP address / URL that you attached to the server. Then when you scroll down, it will ask for your database details. Fill according to what you entered in the above steps (db account and name should be &rsquo;nextcloud&rsquo; and password will be the one you entered while configuring mariadb, step 7).</p>
+<p>Sign in and setup nextcloud as you like. Next, head over to the Admin settings by clicking on your profile on top right side and then on &ldquo;Administration settings&rdquo;.</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/admin_settings_nextcloud.png#center"/> 
+</figure>
+
+<p>In here, you will see the various issues that nextcloud has automatically detected with the installation.</p>
+<h4 id="some-of-the-errors-that-i-had-received-and-their-solutions">Some of the errors that I had received and their solutions:</h4>
+<ol>
+<li>
+<p>If you get a very big error which states that the database is missing some indices, simply do as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chmod +x /var/www/nextcloud/occ                                      
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo -u <span class="s1">&#39;www-data&#39;</span> /var/www/nextcloud/occ db:add-missing-indices          
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo chmod -x /var/www/nextcloud/occ                                      
+</span></span></code></pre></div><p>This adds the missing indices using occ script provided by nextcloud themselves, which helps in correcting issues with nextcloud.</p>
+</li>
+<li>
+<p>Enable memory caching:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /var/www/nextcloud/config/config.php
+</span></span></code></pre></div><p>In the text editor which opens, add the following line somewhere in between the other lines (before the closing bracktes atleast):</p>
+<ul>
+<li>&lsquo;memcache.local&rsquo; =&gt; &lsquo;\OC\Memcache\APCu&rsquo;,</li>
+<li>&lsquo;default_phone_region&rsquo; =&gt; &lsquo;IN&rsquo;,</li>
+</ul>
+<p><strong>NOTE:</strong> Replace phone region code to whatever your region code is. Also, remember to have those commas in the end of each of the above 2 lines.</p>
+</li>
+<li>
+<p>Additional security parameter is to lock down the config.php file to root group, as it contains sensitive information like our database password.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo chmod <span class="m">660</span> /var/www/nextcloud/config/config.php
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo chown root:www-data /var/www/nextcloud/config/config.php
+</span></span></code></pre></div></li>
+</ol>
+<hr>
+<h3 id="conclusion">Conclusion</h3>
+<p>After doing this much, you can restart apache and/or even reboot your system once.</p>
+<p>Now I think you will be good to go with your own personal cloud storage. Remember to keep your system updated and files backed up (try to follow 3-2-1 rule) to be safe.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Whatsapp Without Phone</title>
+      <link>https://krishnayadav.xyz/posts/whatsapp-without-phone/</link>
+      <pubDate>Wed, 29 May 2024 20:43:23 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/whatsapp-without-phone/</guid>
+      <description>&lt;p&gt;I had stopped using whatsapp because I didn&amp;rsquo;t want to have it&amp;rsquo;s proprietary app on my de-googled device.&lt;/p&gt;
+&lt;h3 id=&#34;the-issue&#34;&gt;The Issue&lt;/h3&gt;
+&lt;p&gt;But you see, this application is used by most of my academic professors and other colleages, so I had to somehow use it (without the app on my phone, of course).&lt;/p&gt;
+&lt;p&gt;So I thought of running it through some android emulator, but didn&amp;rsquo;t want to natively run it on my linux machine. [No waydroid as I run X11]&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>I had stopped using whatsapp because I didn&rsquo;t want to have it&rsquo;s proprietary app on my de-googled device.</p>
+<h3 id="the-issue">The Issue</h3>
+<p>But you see, this application is used by most of my academic professors and other colleages, so I had to somehow use it (without the app on my phone, of course).</p>
+<p>So I thought of running it through some android emulator, but didn&rsquo;t want to natively run it on my linux machine. [No waydroid as I run X11]</p>
+<p>Thus I installed Windows 10 through virtual box and then installed bluestacks in it. But bluestacks was not starting properly (issues with virtualization), which I solved via virtualbox settings.</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/enable_virt.png#center"
+         alt="Had to enable the above 2 options to get virtualization working."/> <figcaption>
+            <p>Had to enable the above 2 options to get virtualization working.</p>
+        </figcaption>
+</figure>
+
+<p><em>If this still doesn&rsquo;t work for you, I think you should also enable Virtualization and Hyper-V support from &ldquo;Turn on windows features&rdquo; from within your Windows VM.</em></p>
+<p>After this, bluestacks started working normally and I installed whatsapp in it and logged in to my account <em>[A strange thing was that all my chats and groups were gone, but maybe that was because I was logging in after around 1 month].</em></p>
+<p>My next major work was to get whatsapp web working, so that I could use it on my other devices (of course, not going to run the emulator each time I have to use it).</p>
+<p>To do so, whatsapp requires web versions to have their QR code scanned by the whatsapp application for login, so I used a usb camera that I had with me, but I got this error when I tried to use the webcam in my Windows VM:</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/cam_notFound_big.png#center"/> 
+</figure>
+
+<p>It required a &ldquo;Webcam Passthrough&rdquo;, so that the VM instance could access the USB camera.</p>
+<h3 id="steps-to-allow-webcam-passthrough-creditshttpsaskubuntucoma1237808">Steps to allow Webcam Passthrough [<a href="https://askubuntu.com/a/1237808">Credits</a>]:</h3>
+<ol>
+<li>
+<p>First install certain extra packages to get stuff working:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-get install virtualbox-guest-additions-iso virtualbox-ext-pack
+</span></span></code></pre></div></li>
+<li>
+<p>Next, we need to find our webcam details using this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">VBoxManage list webcams
+</span></span></code></pre></div><p>This should show us a list of (for me only 1) webcam/s attached to your host device.</p>
+</li>
+<li>
+<p>Now finally we need to connect this webcam to enable passthrough. Issue this command, by replacing the word <strong>Windows</strong> with the name of your VM instance and the .1 with the number that corresponds to your webcam as listed in step 2 (in most cases, it should be .1):</p>
+<p><em><strong>NOTE: This command must be run only when your windows VM is running.</strong></em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">VBoxManage controlvm <span class="s2">&#34;Windows&#34;</span> webcam attach .1
+</span></span></code></pre></div></li>
+</ol>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/list_Webcam.png#center"/> 
+</figure>
+
+<p><em>NOTE: If you shutdown or restart your VM, it will loose access to the camera. You need to re-run the step 3 command to get it working.</em></p>
+<h3 id="conclusion">Conclusion</h3>
+<p>With this much, my VM was able to detect the webcam and without much difficulty, I was able to register with the whatsapp web version on my devices.</p>
+<p>A small caveat though, remember to open the whatsapp in your windows VM every 14 days to avoid getting logged out of your whatsapp web devices.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Sign a Custom ROM Build</title>
+      <link>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</link>
+      <pubDate>Sun, 26 May 2024 21:05:20 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</guid>
+      <description>&lt;p&gt;This guide will explain how to &lt;strong&gt;sign&lt;/strong&gt; a Custom ROM build (typically unofficial builds, as most official ROMs are now shipping their own private keys).&lt;/p&gt;
+&lt;p&gt;I will use the &lt;a href=&#34;https://wiki.lineageos.org/signing_builds&#34;&gt;Lineage wiki guide&lt;/a&gt;, but simplify it in my own words at places where I feel this guide did not give more practical information to a new comer like me.&lt;/p&gt;
+&lt;h4 id=&#34;the-steps-to-generate-the-keys-are-as-follows&#34;&gt;The steps to generate the keys are as follows:&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You only need to run this once. If you ever rerun these, you’ll need to migrate between builds.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>This guide will explain how to <strong>sign</strong> a Custom ROM build (typically unofficial builds, as most official ROMs are now shipping their own private keys).</p>
+<p>I will use the <a href="https://wiki.lineageos.org/signing_builds">Lineage wiki guide</a>, but simplify it in my own words at places where I feel this guide did not give more practical information to a new comer like me.</p>
+<h4 id="the-steps-to-generate-the-keys-are-as-follows">The steps to generate the keys are as follows:</h4>
+<p><strong>NOTE</strong>: You only need to run this once. If you ever rerun these, you’ll need to migrate between builds.</p>
+<ol>
+<li>
+<p>Go to the directory where all yours rom files are originally synced (the root of your custom rom files). Now open a terminal and issue this command:</p>
+<p><strong>NOTE</strong>: Please note this beforehand that running the following code will ask you to enter password for several keys and several number of times. I will say that just enter 1 password and copy+paste it on all the places where it asks for a password to be entered.</p>
+<p><strong><em>DO NOTE THIS PASSWORD DOWN, as we will have to use it when we sign the builds.</em></strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">subject</span><span class="o">=</span><span class="s1">&#39;/C=US/ST=California/L=Mountain View/O=Android/OU=Android/CN=Android/emailAddress=android@android.com&#39;</span>
+</span></span><span class="line"><span class="cl">mkdir ~/.android-certs
+</span></span><span class="line"><span class="cl"><span class="k">for</span> cert in bluetooth cyngn-app media networkstack platform releasekey sdk_sandbox shared testcert testkey verity<span class="p">;</span> <span class="k">do</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    ./development/tools/make_key ~/.android-certs/<span class="nv">$cert</span> <span class="s2">&#34;</span><span class="nv">$subject</span><span class="s2">&#34;</span><span class="p">;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="k">done</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Now we are required to re-sign APEX keys. To do so, simply run the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp ./development/tools/make_key ~/.android-certs/
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s|2048|4096|g&#39;</span> ~/.android-certs/make_key
+</span></span></code></pre></div></li>
+<li>
+<p>Now finally, we must generate our keys. I will strongly recommend you to generate them <strong>with</strong> a password (re-use the password you used in step 1).</p>
+<p>The command to run is in <a href="https://wiki.lineageos.org/signing_builds#generate-keys-with-a-password">here</a></p>
+<p><strong>NOTE</strong>: If you have issues following up with these steps, I have a script that will execute the commands for you (of course, you have to manually enter the password for each keys). You can find that script <a href="https://github.com/ObsidianMaximus/scripts/blob/master/signing/Generate_Keys.sh">here</a></p>
+<p>Usage (copy paste this in terminal):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -O https://raw.githubusercontent.com/ObsidianMaximus/scripts/master/signing/Generate_Keys.sh
+</span></span><span class="line"><span class="cl">bash Generate_Keys.sh
+</span></span></code></pre></div></li>
+</ol>
+<h4 id="now-the-steps-to-make-a-zip-flashable-package-are-as-follows">Now, the steps to <strong>make a .zip flashable package</strong> are as follows:</h4>
+<ol>
+<li>
+<p>Source the envsetup.sh by executing this command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> build/envsetup.sh
+</span></span></code></pre></div></li>
+<li>
+<p>Now finally, we will have to start compiling the files for our custom ROM (this will take a long time, depending on your computer&rsquo;s specs). To do so, run the following command (replacing the codename with your device codename):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">breakfast &lt;codename&gt;
+</span></span><span class="line"><span class="cl">mka target-files-package otatools
+</span></span></code></pre></div></li>
+<li>
+<p>Now, it is time to sign all of our APKs and APEXes and build the .zip package.</p>
+<p>We will use 2 environment variables to ease our task, as they will allow us to sign without having to enter the password several times. For that, we must issue these 2 commands in the terminal:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">ANDROID_PW_FILE</span><span class="o">=</span>/path/to/your/password/file
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">EDITOR</span><span class="o">=</span>your_preferred_text_editor
+</span></span></code></pre></div><p><strong>NOTE</strong>: <em>Replace the fields above as required. For the <strong>ANDROID_PW_FILE</strong>, just create a file somewhere and input its path there. As for the <strong>EDITOR</strong> variable, choose whichever editor you like (eg. vim, nano, codium, etc).</em></p>
+<p>Next run the following commands to call the script to start signing:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -O https://raw.githubusercontent.com/ObsidianMaximus/scripts/master/signing/Sign.sh
+</span></span><span class="line"><span class="cl">bash Sign.sh
+</span></span></code></pre></div><p><strong>NOTE</strong>: <em>This script will invoke a command &ldquo;<strong>sign_target_files_apks</strong>&rdquo;, which should open the editor which you specified above, but if it does not, then open the file that you had given above in <strong>&ldquo;ANDROID_PW_FILE&rdquo;</strong> and you should have stuff inside of it with empty spaces in these &ldquo;[[[      ]]]&rdquo; brackets.</em></p>
+<p>Fill the password in this empty space for all the apks [make sure to fill it between the 3 left and 3 right brackets], and then save this file, and re-run the above script by simple doing: <strong><code>bash Sign.sh</code></strong>.</p>
+<p><strong>NOTE</strong>: Wait patiently, it can take some time to do all of the above process.</p>
+</li>
+</ol>
+<p>Congratulations, you have successfully signed the build. Now in case you are wondering where the .zip file is (no, it is not in the usual out/ directory), the .zip is right in the android root tree, where you issued the commands from.</p>
+<p>Just clean flash the <strong>signed-ota_update.zip</strong> and device integrity should be met now.</p>
+<hr>
+<p><strong>Update:</strong> Just confirmed that dirty flashing this build over the previous unsigned ROM also works.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Ubuntu Server Setup Part-1</title>
+      <link>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-1/</link>
+      <pubDate>Tue, 30 Apr 2024 19:46:03 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-1/</guid>
+      <description>&lt;p&gt;I was wanting to learn on how to setup my servers and host stuff on them, but to host a server online, one needs to spend some amount of money on them, which i really didn&amp;rsquo;t want to. But then i remembered that i have one old dusty home computer that had been lying in my home since several years, while not really being used anymore.&lt;/p&gt;
+&lt;p&gt;So i decided to use this opportunity to reuse the same computer for my server tasks and in this way, i will be saving up on those server costs that i would have to pay [electricity is cheap here].&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>I was wanting to learn on how to setup my servers and host stuff on them, but to host a server online, one needs to spend some amount of money on them, which i really didn&rsquo;t want to. But then i remembered that i have one old dusty home computer that had been lying in my home since several years, while not really being used anymore.</p>
+<p>So i decided to use this opportunity to reuse the same computer for my server tasks and in this way, i will be saving up on those server costs that i would have to pay [electricity is cheap here].</p>
+<p>But i had a hurdle in my path, and that was my old monitor not working, due to which i was unable to get my cpu to give a basic display as it had only VGA output. And well, i couldn&rsquo;t really use this PC with my current monitor, as this monitor supports only HDMI and Display Port. I did have one VGA-to-HDMI converter lying around with me, but that had malfunctioned as well.</p>
+<p>This had me worried for some time before i thought of just using the gpu in my current setup on the older one. Sadly, this had another issue. The older desktop is an Intel Pentium E5400, and has a motherboard which is of LGA775 socket type. Now, this motherboard has the onboard power supply cables right above the PCIe slot, which rendered me placing my hefty gpu in that slot useless.</p>
+<p>Then i had to think a bit more and got an idea of just taking out the HDD from the old PC and placing it in my working desktop [silly me]. I attached the HDD to my newer PC and started the machine.</p>
+<p>At first, i went for the trusted server OS, Debian. Flashed it onto my usb drive and tried live booting only to be suprised with no display. Forgot that i had to enable CSM from BIOS and then turn on &ldquo;legacy only&rdquo; mode to allow the usb to boot [had partitioned it as MSDOS/MBR, silly me, again..]. This was again because the older computer had legacy BIOS only and i had to test the current HDD to ensure that it did boot alright under legacy conditions.</p>
+<p>Adjusted boot options and booted the PC only to be met by a weirdly enlarged debian graphical installer. Pressed enter and the PC restarted and i was met with just blurred out lines and teared display with the text not legible at all. Tried rebooting several times from my usb drive but was met with the same issue again and again. Finally got quite frustrated and flashed ubuntu server on the drive.</p>
+<p>Booted from it and to my surprise, it turned on smoothly. At first the screen was enlarged but when i progressed the installation, it auto-adjusted normally and matched my 24&quot; screen resolution quite well. Installed the ubuntu server, which was pretty straight forward, thanks to the KIS ways of Ubuntu.</p>
+<p>Then my next task was getting my wifi modem or should i say TP-Link USB Network Adapter (Archer T2U Plus) in working condition, as i planned to keep the pc in an isolated place. <strong>The instructions for the same can be found <a href="https://github.com/ObsidianMaximus/wifidrivers/blob/master/commands_for_drivers.sh">here</a>.</strong> This adapter uses a Realtek <strong>RTL8821AU Chipset</strong> at its heart, which fortunately has linux drivers available, thanks to aircrack-ng!
+Executing the commands in the script installed all it&rsquo;s drivers. Now next, i had to enable it and connect to my home network to make the pc accessible by my other devices.</p>
+<p>To do this, here is an excellent guide from <a href="https://ubuntu.com/core/docs/networkmanager/configure-wifi-connections">Ubuntu</a>!</p>
+<p>As for the steps i followed, they were as follow:</p>
+<ul>
+<li>Firstly, i had to install <strong>network-manager</strong> as it was not present by default on the default server installation [ strange? ].</li>
+<li>Next, i ran <strong><code>nmcli d</code></strong> command to get the name of the wifi device.</li>
+<li>Then, to turn it on, issue: <strong><code>nmcli r wifi on</code></strong> and list all the scanned wifi networks with: <strong><code>nmcli d wifi list</code></strong></li>
+<li>To connect to one of the networks listed, you have to type: <strong><code>nmcli d wifi connect &lt;name of the wifi&gt; password &lt;password for that wifi&gt;</code></strong>  [Replace stuff within &lt; &gt; with what you have got listed in the above step.]</li>
+<li>It took several seconds but after that it did get connected to my wifi network! I restarted my pc without the ethernet cable and the wifi did indeed work, although on startup, one of the checks done by systemd made me wait for quite a long time, more on that <a href="https://askubuntu.com/questions/972215/a-start-job-is-running-for-wait-for-network-to-be-configured-ubuntu-server-17-1">here</a>.</li>
+</ul>
+<p>I then took out the HDD and inserted it into my older desktop and sadly, even after it being turned on for several minutes, i had no green led light show up on the wifi usb adapter [which is used to indicate that the modem is in use by the OS], thus, the older pc was <em>not</em> turning on properly and i had no way to get to diagnosing the issue as i just didn&rsquo;t have a display [running it headless].</p>
+<p>I think that I will have to indeed get my monitor repaired to continue on with my experimentations on my newly built home server.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Use SSH or Rsync With Android</title>
+      <link>https://krishnayadav.xyz/posts/use-ssh-or-rsync-with-android/</link>
+      <pubDate>Fri, 26 Apr 2024 09:28:58 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/use-ssh-or-rsync-with-android/</guid>
+      <description>&lt;p&gt;Today, I wanted to send a file from my desktop to my android device. I thought of using rsync for this purpose, which is a tool that I use frequently to sync files between my desktop and my laptop.&lt;/p&gt;
+&lt;p&gt;I thought of giving it a try and came across &lt;a href=&#34;https://howtos.davidsebek.com/android-rsync-termux.html&#34;&gt;this great article&lt;/a&gt; that explained just this.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE: This guide requires both the computer and the Android device to be on the same wifi network.&lt;/strong&gt;&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>Today, I wanted to send a file from my desktop to my android device. I thought of using rsync for this purpose, which is a tool that I use frequently to sync files between my desktop and my laptop.</p>
+<p>I thought of giving it a try and came across <a href="https://howtos.davidsebek.com/android-rsync-termux.html">this great article</a> that explained just this.</p>
+<p><strong>NOTE: This guide requires both the computer and the Android device to be on the same wifi network.</strong></p>
+<h3 id="the-process-to-send-files-from-pc-to-android">The process to send files from PC to Android</h3>
+<ol>
+<li>Install rsync on termux using the command: <strong><code>apt install rsync</code></strong> and install openssh using the command: <strong><code>apt install openssh</code></strong>.</li>
+<li>Then setup the internal storage of our Android device to be accessible by termux using the command: <strong><code>termux-setup-storage</code></strong>. Grant termux the permission to access storage when prompted.</li>
+<li>Now, change the sshd config file to allow termux to use SSH port. Termux does not have the permission to use the default SSH port 22, so we will use 8022 port instead (can use any available port). For doing this, edit the ../usr/etc/ssh/sshd_config file by simply using the command: <strong><code>echo &quot;Port 8022&quot; &gt;&gt; ../usr/etc/ssh/sshd_config</code></strong></li>
+<li>Let&rsquo;s get the local ip address of our device by using the command: <strong><code>ifconfig</code></strong>. The ip address should be usually in the end and will be after &ldquo;inet&rdquo; . Or you can just go to Settings app and click on wifi and select the wifi you are connected to and look for the ipv4 address. In either of these 2 cases, the ip address should usually begin with <strong>192.168.xx.xx</strong> where x&rsquo;s are to be replaced by your ip address part.</li>
+<li>Setup a password for the user by using the command: <strong><code>passwd</code></strong>.</li>
+<li>Finally, we have to start the SSH daemon. To do this, enter this in termux: <strong><code>sshd</code></strong>.</li>
+</ol>
+<h4 id="for-using-ssh">For using SSH</h4>
+<ol>
+<li>Open terminal on your pc and type: <strong><code>ssh -p 8022 192.168.xx.xx</code></strong> [where the x&rsquo;s are replaced by your ipv4 address part].</li>
+<li>You should now be able to use android terminal through your desktop terminal.</li>
+</ol>
+<h4 id="for-using-rsync">For using Rsync</h4>
+<ol>
+<li>
+<p>Simply enter the command : <strong><code>rsync -e 'ssh -p 8022' &lt;file to transfer from pc&gt; 192.168.xx.xx:/data/data/com.termux/files/home/storage/</code></strong></p>
+<p>Explanation of some stuff in the above commands :</p>
+<ul>
+<li>The -e command is used to specify the remote shell to use. For more details, check the manpage of rsync.</li>
+<li>The x&rsquo;s replace your ipv4 address parts.</li>
+<li><strong>/data/data/com.termux/files/home/storage/</strong> is the &ldquo;usual&rdquo; path of the main storage in our Android which the user can access, so we are sending the file from our desktop to our Android device&rsquo;s internal storage using this. You can specify some folder to send the file into directly by simply adding the folder after <strong>storage/</strong> in the command. If this shows an error message when you try to transfer files, just type: <strong><code>pwd</code></strong> in termux to get your current directory where you wish to send/receive the files and replace output of this command with the path in the step 1 command above after your phone&rsquo;s ip address.</li>
+<li>This should work in vice-versa as well. Just add the path to copy from Android first and the path to copy to in your desktop after this.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="note">Note</h3>
+<ul>
+<li>
+<p>To avoid entering password all the time while accessing SSH/Rsync, generate a key pair on your pc using the command: <strong><code>ssh-keygen -t ed25519</code></strong> and then copy it to Android using the command: <strong><code>ssh-copy-id -p 8022 192.168.xx.xx</code></strong> in your desktop terminal. This will ask you password only once and after authenticating it, you can now just use SSH/Rsync without entering that password which we generated in the &ldquo;Step 5&rdquo; in the beginning.</p>
+</li>
+<li>
+<p><strong>REMEMBER</strong> that the ip address of your android device can change from time to time due to ip addresses being dynamic when using wifi. Or they &ldquo;may&rdquo; change if the router is restarted. In any case, be sure to repeat the &ldquo;Step 4&rdquo; which we did in the beginning to find our local ip address.</p>
+</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Ubuntu Touch Port Part 1</title>
+      <link>https://krishnayadav.xyz/posts/ubuntu-touch-port-part-1/</link>
+      <pubDate>Thu, 25 Apr 2024 13:38:00 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-touch-port-part-1/</guid>
+      <description>&lt;h2 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h2&gt;
+&lt;p&gt;So I recently decided to get more involved in the Android world and came about a &amp;rsquo;new&amp;rsquo; type of OS, known as Ubuntu Touch. I thought a bit on it and decided to start the porting process for it for my device Realme GT Neo 2 [codenamed:bitra].&lt;/p&gt;
+&lt;p&gt;I started with the &lt;a href=&#34;https://docs.ubports.com/en/latest/porting/introduction/index.html&#34;&gt;official documentation of UBports&lt;/a&gt; where in they gave some good amount of introduction on how and why certain things needed to be done.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<h2 id="getting-started">Getting Started</h2>
+<p>So I recently decided to get more involved in the Android world and came about a &rsquo;new&rsquo; type of OS, known as Ubuntu Touch. I thought a bit on it and decided to start the porting process for it for my device Realme GT Neo 2 [codenamed:bitra].</p>
+<p>I started with the <a href="https://docs.ubports.com/en/latest/porting/introduction/index.html">official documentation of UBports</a> where in they gave some good amount of introduction on how and why certain things needed to be done.</p>
+<p>The guide mentions the use of GSI for devices with Android 8+ and, as my device is indeed treble supported, I think I will head to using GSI only.</p>
+<p><a href="https://docs.ubports.com/en/latest/porting/build_and_boot/standalone_kernel_build.html">Standalone Kernel Method (Halium 9 and newer)</a> is very interesting as it seems to be the least tiresome way for porting among all of the 3 mentioned methods. So I started with this and did the steps as mentioned in the guide.</p>
+<p>The defconfig that i had to use is the <a href="https://gitlab.com/Krishna-Yadav/android_kernel_realme_sm8250/-/blob/master/arch/arm64/configs/vendor/sm8250_defconfig?ref_type=heads">sm8250_defconfig</a>. Next i made a halium.config file as prompted.</p>
+<p>Next, i had to fill in the deviceinfo file. For this purpose, I used the <a href="https://gitlab.com/ubports/porting/community-ports/android11/xiaomi-poco-x3-pro/xiaomi-vayu">Poco X3 Pro device branch</a> as a dummy template and started filling stuff according to it and the guide.</p>
+<p>But I got stuck on the <em>deviceinfo_bootimg_prebuilt_dtb</em> step as i was not sure where to find my dtb. So i asked this question in the telegram group of Ubports and was recommended to run a script on the <a href="/bootimageextractionguide/index.html">boot.img which i had extracted</a>.</p>
+<p>The script was by LOS. It can be found <a href="https://raw.githubusercontent.com/LineageOS/android_system_tools_mkbootimg/lineage-18.1/unpack_bootimg.py">here</a> [use it through curl -O options]. And it worked! I was able to get the output from my boot.img using the script by running this command : <strong><code>python unpack_bootimg.py --boot_img boot.img</code></strong></p>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/pyScriptLOS18.png#center"
+         alt="The script&rsquo;s output in normal format."/> <figcaption>
+            <p>The script&rsquo;s output in normal format.</p>
+        </figcaption>
+</figure>
+
+<p>But then, i was recommended to add the option <strong><code>--format mkbootimg</code></strong> along with the above command to get the outputed text in terms of mkbootimg arguments, as it would output the values that were expected for the <strong>deviceinfo</strong> file.</p>
+<p>Unfortunately for me though, adding that option to the command gave me an error : <strong><code>error: unrecognized arguments: --format mkbootimg</code></strong></p>
+<p>I then thought and checked the latest LOS branch from where i had got that previous script. And i did find an updated script from LOS21 that did have those options that i needed for mkbootimg format. The new script can be found <a href="https://raw.githubusercontent.com/LineageOS/android_system_tools_mkbootimg/lineage-21.0/unpack_bootimg.py">here</a></p>
+<p>After this, i ran the command again, now with the additional parameters to it and was indeed able to generate the output in mkbootimg format without any errors! The updated command : <strong><code>python unpack_bootimg.py --boot_img boot.img --format mkbootimg</code></strong></p>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/pyScriptLOS21.png#center"
+         alt="The script&rsquo;s output in mkbootimg format."/> <figcaption>
+            <p>The script&rsquo;s output in mkbootimg format.</p>
+        </figcaption>
+</figure>
+
+<p>This has given me alot to work with now. I will be looking forward to progress even further and complete the deviceinfo file.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Boot Image Extraction Guide</title>
+      <link>https://krishnayadav.xyz/posts/boot-image-extraction-guide/</link>
+      <pubDate>Wed, 24 Apr 2024 21:53:31 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/boot-image-extraction-guide/</guid>
+      <description>&lt;p&gt;Guide on how to extract a boot image from any Android phone [Requires Magisk and Computer]&lt;/p&gt;
+&lt;h2 id=&#34;getting-started&#34;&gt;Getting started!&lt;/h2&gt;
+&lt;p&gt;Accessing and modifying system files on your device typically requires superuser permissions. To extract the boot image, we&amp;rsquo;ll need a root environment. We&amp;rsquo;ll achieve this by using Magisk.&lt;/p&gt;
+&lt;h4 id=&#34;procedure&#34;&gt;Procedure&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;First, make sure you install TWRP and then flash Magisk through it.&lt;/li&gt;
+&lt;li&gt;Setup Magisk in your phone.&lt;/li&gt;
+&lt;li&gt;Connect your phone to your Computer and type adb shell [Ensure that you have adb setup properly].&lt;/li&gt;
+&lt;li&gt;Now, become root by typing &lt;strong&gt;su&lt;/strong&gt; in the shell on your PC.&lt;/li&gt;
+&lt;li&gt;Copy/Paste the following code in the shell.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; PARTITION in &lt;span class=&#34;s2&#34;&gt;&amp;#34;boot&amp;#34;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;boot_a&amp;#34;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;boot_b&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nv&#34;&gt;BLOCK&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;find /dev/block &lt;span class=&#34;se&#34;&gt;\(&lt;/span&gt; -type b -o -type c -o -type l &lt;span class=&#34;se&#34;&gt;\)&lt;/span&gt; -iname &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PARTITION&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; -print -quit 2&amp;gt;/dev/null&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; -n &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$BLOCK&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PARTITION&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;readlink -f &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$BLOCK&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This command will display the boot partition paths for both A/B and A-only devices.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>Guide on how to extract a boot image from any Android phone [Requires Magisk and Computer]</p>
+<h2 id="getting-started">Getting started!</h2>
+<p>Accessing and modifying system files on your device typically requires superuser permissions. To extract the boot image, we&rsquo;ll need a root environment. We&rsquo;ll achieve this by using Magisk.</p>
+<h4 id="procedure">Procedure</h4>
+<ol>
+<li>First, make sure you install TWRP and then flash Magisk through it.</li>
+<li>Setup Magisk in your phone.</li>
+<li>Connect your phone to your Computer and type adb shell [Ensure that you have adb setup properly].</li>
+<li>Now, become root by typing <strong>su</strong> in the shell on your PC.</li>
+<li>Copy/Paste the following code in the shell.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="k">for</span> PARTITION in <span class="s2">&#34;boot&#34;</span> <span class="s2">&#34;boot_a&#34;</span> <span class="s2">&#34;boot_b&#34;</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">BLOCK</span><span class="o">=</span><span class="k">$(</span>find /dev/block <span class="se">\(</span> -type b -o -type c -o -type l <span class="se">\)</span> -iname <span class="s2">&#34;</span><span class="nv">$PARTITION</span><span class="s2">&#34;</span> -print -quit 2&gt;/dev/null<span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[</span> -n <span class="s2">&#34;</span><span class="nv">$BLOCK</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$PARTITION</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="k">$(</span>readlink -f <span class="s2">&#34;</span><span class="nv">$BLOCK</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p>This command will display the boot partition paths for both A/B and A-only devices.</p>
+<p><strong>Note: On <a href="https://source.android.com/docs/core/ota/ab">A/B devices</a>, the loop command will display the boot partition paths for both slots, something like this!</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">boot_a</span> <span class="o">=</span> /dev/block/sda40
+</span></span><span class="line"><span class="cl"><span class="nv">boot_b</span> <span class="o">=</span> /dev/block/sda41
+</span></span></code></pre></div><p>In this case, you can extract the image corresponding to your currently active slot.To determine the active slot, enter the command <code>getprop ro.boot.slot_suffix</code>. If the output is _a, use the path for boot_a; otherwise, use the path for boot_b.</p>
+<ol start="6">
+<li>Finally, use the following command to extract the image from the specified boot path:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>&lt;boot_partition_path&gt; <span class="nv">of</span><span class="o">=</span>&lt;output_path&gt;
+</span></span></code></pre></div><p>For example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>/dev/block/mmcblk0p42 <span class="nv">of</span><span class="o">=</span>/sdcard/boot_a.img
+</span></span></code></pre></div><p>I hope this did work for you, as it did indeed work for me!</p>
+<p>CREDITS : <a href="https://gist.github.com/gitclone-url/a1f693b64d8f8701ec24477a2ccaab87">Here</a></p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Donate</title>
+      <link>https://krishnayadav.xyz/donate/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://krishnayadav.xyz/donate/</guid>
+      <description>&lt;p&gt;If you feel that my work has been valuable to you, I would greatly appreciate your support. Any contribution, big or small, helps me continue creating and sharing more meaningful content. Thank you for considering a donation!&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Paypal: &lt;strong&gt;&lt;a href=&#34;https://paypal.me/krishnayadavxyz&#34;&gt;Link&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;UPI: &lt;code&gt;obsidianmaximus@upi&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&#34;align-center &#34;&gt;
+    &lt;img loading=&#34;lazy&#34; src=&#34;https://krishnayadav.xyz/upi.png#center&#34;
+         alt=&#34;UPI QR code&#34;/&gt; &lt;figcaption&gt;
+            &lt;p&gt;UPI QR code&lt;/p&gt;
+        &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Monero:&lt;code&gt;46Es9cwspxoY9hhYMy2mdGLwxpYouLWANaBVWiUhhjE37Mr1bB65cU4C9cLkCiaw3hWVaZij7xZs4DrPVUFxTPy5CCkVvsr&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&#34;align-center &#34;&gt;
+    &lt;img loading=&#34;lazy&#34; src=&#34;https://krishnayadav.xyz/Monero.png#center&#34;
+         alt=&#34;Monero QR code&#34;/&gt; &lt;figcaption&gt;
+            &lt;p&gt;Monero QR code&lt;/p&gt;
+        &lt;/figcaption&gt;
+&lt;/figure&gt;</description>
+      <content:encoded><![CDATA[<p>If you feel that my work has been valuable to you, I would greatly appreciate your support. Any contribution, big or small, helps me continue creating and sharing more meaningful content. Thank you for considering a donation!</p>
+<ul>
+<li>Paypal: <strong><a href="https://paypal.me/krishnayadavxyz">Link</a></strong></li>
+<li>UPI: <code>obsidianmaximus@upi</code></li>
+</ul>
+<figure class="align-center ">
+    <img loading="lazy" src="/upi.png#center"
+         alt="UPI QR code"/> <figcaption>
+            <p>UPI QR code</p>
+        </figcaption>
+</figure>
+
+<ul>
+<li>Monero:<code>46Es9cwspxoY9hhYMy2mdGLwxpYouLWANaBVWiUhhjE37Mr1bB65cU4C9cLkCiaw3hWVaZij7xZs4DrPVUFxTPy5CCkVvsr</code></li>
+</ul>
+<figure class="align-center ">
+    <img loading="lazy" src="/Monero.png#center"
+         alt="Monero QR code"/> <figcaption>
+            <p>Monero QR code</p>
+        </figcaption>
+</figure>
+
+]]></content:encoded>
+    </item>
   </channel>
 </rss>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Rom on Krishna&#39;s Webplace</title>
+    <link>https://krishnayadav.xyz/tags/rom/</link>
+    <description>Recent content in Rom on Krishna&#39;s Webplace</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 26 May 2024 21:05:20 +0530</lastBuildDate>
+    <atom:link href="https://krishnayadav.xyz/tags/rom/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sign a Custom ROM Build</title>
+      <link>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</link>
+      <pubDate>Sun, 26 May 2024 21:05:20 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</guid>
+      <description>&lt;p&gt;This guide will explain how to &lt;strong&gt;sign&lt;/strong&gt; a Custom ROM build (typically unofficial builds, as most official ROMs are now shipping their own private keys).&lt;/p&gt;
+&lt;p&gt;I will use the &lt;a href=&#34;https://wiki.lineageos.org/signing_builds&#34;&gt;Lineage wiki guide&lt;/a&gt;, but simplify it in my own words at places where I feel this guide did not give more practical information to a new comer like me.&lt;/p&gt;
+&lt;h4 id=&#34;the-steps-to-generate-the-keys-are-as-follows&#34;&gt;The steps to generate the keys are as follows:&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You only need to run this once. If you ever rerun these, you’ll need to migrate between builds.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>This guide will explain how to <strong>sign</strong> a Custom ROM build (typically unofficial builds, as most official ROMs are now shipping their own private keys).</p>
+<p>I will use the <a href="https://wiki.lineageos.org/signing_builds">Lineage wiki guide</a>, but simplify it in my own words at places where I feel this guide did not give more practical information to a new comer like me.</p>
+<h4 id="the-steps-to-generate-the-keys-are-as-follows">The steps to generate the keys are as follows:</h4>
+<p><strong>NOTE</strong>: You only need to run this once. If you ever rerun these, you’ll need to migrate between builds.</p>
+<ol>
+<li>
+<p>Go to the directory where all yours rom files are originally synced (the root of your custom rom files). Now open a terminal and issue this command:</p>
+<p><strong>NOTE</strong>: Please note this beforehand that running the following code will ask you to enter password for several keys and several number of times. I will say that just enter 1 password and copy+paste it on all the places where it asks for a password to be entered.</p>
+<p><strong><em>DO NOTE THIS PASSWORD DOWN, as we will have to use it when we sign the builds.</em></strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">subject</span><span class="o">=</span><span class="s1">&#39;/C=US/ST=California/L=Mountain View/O=Android/OU=Android/CN=Android/emailAddress=android@android.com&#39;</span>
+</span></span><span class="line"><span class="cl">mkdir ~/.android-certs
+</span></span><span class="line"><span class="cl"><span class="k">for</span> cert in bluetooth cyngn-app media networkstack platform releasekey sdk_sandbox shared testcert testkey verity<span class="p">;</span> <span class="k">do</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    ./development/tools/make_key ~/.android-certs/<span class="nv">$cert</span> <span class="s2">&#34;</span><span class="nv">$subject</span><span class="s2">&#34;</span><span class="p">;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="k">done</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Now we are required to re-sign APEX keys. To do so, simply run the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp ./development/tools/make_key ~/.android-certs/
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s|2048|4096|g&#39;</span> ~/.android-certs/make_key
+</span></span></code></pre></div></li>
+<li>
+<p>Now finally, we must generate our keys. I will strongly recommend you to generate them <strong>with</strong> a password (re-use the password you used in step 1).</p>
+<p>The command to run is in <a href="https://wiki.lineageos.org/signing_builds#generate-keys-with-a-password">here</a></p>
+<p><strong>NOTE</strong>: If you have issues following up with these steps, I have a script that will execute the commands for you (of course, you have to manually enter the password for each keys). You can find that script <a href="https://github.com/ObsidianMaximus/scripts/blob/master/signing/Generate_Keys.sh">here</a></p>
+<p>Usage (copy paste this in terminal):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -O https://raw.githubusercontent.com/ObsidianMaximus/scripts/master/signing/Generate_Keys.sh
+</span></span><span class="line"><span class="cl">bash Generate_Keys.sh
+</span></span></code></pre></div></li>
+</ol>
+<h4 id="now-the-steps-to-make-a-zip-flashable-package-are-as-follows">Now, the steps to <strong>make a .zip flashable package</strong> are as follows:</h4>
+<ol>
+<li>
+<p>Source the envsetup.sh by executing this command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> build/envsetup.sh
+</span></span></code></pre></div></li>
+<li>
+<p>Now finally, we will have to start compiling the files for our custom ROM (this will take a long time, depending on your computer&rsquo;s specs). To do so, run the following command (replacing the codename with your device codename):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">breakfast &lt;codename&gt;
+</span></span><span class="line"><span class="cl">mka target-files-package otatools
+</span></span></code></pre></div></li>
+<li>
+<p>Now, it is time to sign all of our APKs and APEXes and build the .zip package.</p>
+<p>We will use 2 environment variables to ease our task, as they will allow us to sign without having to enter the password several times. For that, we must issue these 2 commands in the terminal:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">ANDROID_PW_FILE</span><span class="o">=</span>/path/to/your/password/file
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">EDITOR</span><span class="o">=</span>your_preferred_text_editor
+</span></span></code></pre></div><p><strong>NOTE</strong>: <em>Replace the fields above as required. For the <strong>ANDROID_PW_FILE</strong>, just create a file somewhere and input its path there. As for the <strong>EDITOR</strong> variable, choose whichever editor you like (eg. vim, nano, codium, etc).</em></p>
+<p>Next run the following commands to call the script to start signing:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -O https://raw.githubusercontent.com/ObsidianMaximus/scripts/master/signing/Sign.sh
+</span></span><span class="line"><span class="cl">bash Sign.sh
+</span></span></code></pre></div><p><strong>NOTE</strong>: <em>This script will invoke a command &ldquo;<strong>sign_target_files_apks</strong>&rdquo;, which should open the editor which you specified above, but if it does not, then open the file that you had given above in <strong>&ldquo;ANDROID_PW_FILE&rdquo;</strong> and you should have stuff inside of it with empty spaces in these &ldquo;[[[      ]]]&rdquo; brackets.</em></p>
+<p>Fill the password in this empty space for all the apks [make sure to fill it between the 3 left and 3 right brackets], and then save this file, and re-run the above script by simple doing: <strong><code>bash Sign.sh</code></strong>.</p>
+<p><strong>NOTE</strong>: Wait patiently, it can take some time to do all of the above process.</p>
+</li>
+</ol>
+<p>Congratulations, you have successfully signed the build. Now in case you are wondering where the .zip file is (no, it is not in the usual out/ directory), the .zip is right in the android root tree, where you issued the commands from.</p>
+<p>Just clean flash the <strong>signed-ota_update.zip</strong> and device integrity should be met now.</p>
+<hr>
+<p><strong>Update:</strong> Just confirmed that dirty flashing this build over the previous unsigned ROM also works.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

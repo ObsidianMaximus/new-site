@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://krishnayadav.xyz/sitemap.xml

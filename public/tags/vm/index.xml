@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>VM on Krishna&#39;s Webplace</title>
+    <link>https://krishnayadav.xyz/tags/vm/</link>
+    <description>Recent content in VM on Krishna&#39;s Webplace</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 29 May 2024 20:43:23 +0530</lastBuildDate>
+    <atom:link href="https://krishnayadav.xyz/tags/vm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Whatsapp Without Phone</title>
+      <link>https://krishnayadav.xyz/posts/whatsapp-without-phone/</link>
+      <pubDate>Wed, 29 May 2024 20:43:23 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/whatsapp-without-phone/</guid>
+      <description>&lt;p&gt;I had stopped using whatsapp because I didn&amp;rsquo;t want to have it&amp;rsquo;s proprietary app on my de-googled device.&lt;/p&gt;
+&lt;h3 id=&#34;the-issue&#34;&gt;The Issue&lt;/h3&gt;
+&lt;p&gt;But you see, this application is used by most of my academic professors and other colleages, so I had to somehow use it (without the app on my phone, of course).&lt;/p&gt;
+&lt;p&gt;So I thought of running it through some android emulator, but didn&amp;rsquo;t want to natively run it on my linux machine. [No waydroid as I run X11]&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>I had stopped using whatsapp because I didn&rsquo;t want to have it&rsquo;s proprietary app on my de-googled device.</p>
+<h3 id="the-issue">The Issue</h3>
+<p>But you see, this application is used by most of my academic professors and other colleages, so I had to somehow use it (without the app on my phone, of course).</p>
+<p>So I thought of running it through some android emulator, but didn&rsquo;t want to natively run it on my linux machine. [No waydroid as I run X11]</p>
+<p>Thus I installed Windows 10 through virtual box and then installed bluestacks in it. But bluestacks was not starting properly (issues with virtualization), which I solved via virtualbox settings.</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/enable_virt.png#center"
+         alt="Had to enable the above 2 options to get virtualization working."/> <figcaption>
+            <p>Had to enable the above 2 options to get virtualization working.</p>
+        </figcaption>
+</figure>
+
+<p><em>If this still doesn&rsquo;t work for you, I think you should also enable Virtualization and Hyper-V support from &ldquo;Turn on windows features&rdquo; from within your Windows VM.</em></p>
+<p>After this, bluestacks started working normally and I installed whatsapp in it and logged in to my account <em>[A strange thing was that all my chats and groups were gone, but maybe that was because I was logging in after around 1 month].</em></p>
+<p>My next major work was to get whatsapp web working, so that I could use it on my other devices (of course, not going to run the emulator each time I have to use it).</p>
+<p>To do so, whatsapp requires web versions to have their QR code scanned by the whatsapp application for login, so I used a usb camera that I had with me, but I got this error when I tried to use the webcam in my Windows VM:</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/cam_notFound_big.png#center"/> 
+</figure>
+
+<p>It required a &ldquo;Webcam Passthrough&rdquo;, so that the VM instance could access the USB camera.</p>
+<h3 id="steps-to-allow-webcam-passthrough-creditshttpsaskubuntucoma1237808">Steps to allow Webcam Passthrough [<a href="https://askubuntu.com/a/1237808">Credits</a>]:</h3>
+<ol>
+<li>
+<p>First install certain extra packages to get stuff working:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-get install virtualbox-guest-additions-iso virtualbox-ext-pack
+</span></span></code></pre></div></li>
+<li>
+<p>Next, we need to find our webcam details using this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">VBoxManage list webcams
+</span></span></code></pre></div><p>This should show us a list of (for me only 1) webcam/s attached to your host device.</p>
+</li>
+<li>
+<p>Now finally we need to connect this webcam to enable passthrough. Issue this command, by replacing the word <strong>Windows</strong> with the name of your VM instance and the .1 with the number that corresponds to your webcam as listed in step 2 (in most cases, it should be .1):</p>
+<p><em><strong>NOTE: This command must be run only when your windows VM is running.</strong></em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">VBoxManage controlvm <span class="s2">&#34;Windows&#34;</span> webcam attach .1
+</span></span></code></pre></div></li>
+</ol>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/list_Webcam.png#center"/> 
+</figure>
+
+<p><em>NOTE: If you shutdown or restart your VM, it will loose access to the camera. You need to re-run the step 3 command to get it working.</em></p>
+<h3 id="conclusion">Conclusion</h3>
+<p>With this much, my VM was able to detect the webcam and without much difficulty, I was able to register with the whatsapp web version on my devices.</p>
+<p>A small caveat though, remember to open the whatsapp in your windows VM every 14 days to avoid getting logged out of your whatsapp web devices.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

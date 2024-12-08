@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Guide on Krishna&#39;s Webplace</title>
+    <link>https://krishnayadav.xyz/tags/guide/</link>
+    <description>Recent content in Guide on Krishna&#39;s Webplace</description>
+    <generator>Hugo -- 0.139.3</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 29 May 2024 20:43:23 +0530</lastBuildDate>
+    <atom:link href="https://krishnayadav.xyz/tags/guide/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Whatsapp Without Phone</title>
+      <link>https://krishnayadav.xyz/posts/whatsapp-without-phone/</link>
+      <pubDate>Wed, 29 May 2024 20:43:23 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/whatsapp-without-phone/</guid>
+      <description>&lt;p&gt;I had stopped using whatsapp because I didn&amp;rsquo;t want to have it&amp;rsquo;s proprietary app on my de-googled device.&lt;/p&gt;
+&lt;h3 id=&#34;the-issue&#34;&gt;The Issue&lt;/h3&gt;
+&lt;p&gt;But you see, this application is used by most of my academic professors and other colleages, so I had to somehow use it (without the app on my phone, of course).&lt;/p&gt;
+&lt;p&gt;So I thought of running it through some android emulator, but didn&amp;rsquo;t want to natively run it on my linux machine. [No waydroid as I run X11]&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>I had stopped using whatsapp because I didn&rsquo;t want to have it&rsquo;s proprietary app on my de-googled device.</p>
+<h3 id="the-issue">The Issue</h3>
+<p>But you see, this application is used by most of my academic professors and other colleages, so I had to somehow use it (without the app on my phone, of course).</p>
+<p>So I thought of running it through some android emulator, but didn&rsquo;t want to natively run it on my linux machine. [No waydroid as I run X11]</p>
+<p>Thus I installed Windows 10 through virtual box and then installed bluestacks in it. But bluestacks was not starting properly (issues with virtualization), which I solved via virtualbox settings.</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/enable_virt.png#center"
+         alt="Had to enable the above 2 options to get virtualization working."/> <figcaption>
+            <p>Had to enable the above 2 options to get virtualization working.</p>
+        </figcaption>
+</figure>
+
+<p><em>If this still doesn&rsquo;t work for you, I think you should also enable Virtualization and Hyper-V support from &ldquo;Turn on windows features&rdquo; from within your Windows VM.</em></p>
+<p>After this, bluestacks started working normally and I installed whatsapp in it and logged in to my account <em>[A strange thing was that all my chats and groups were gone, but maybe that was because I was logging in after around 1 month].</em></p>
+<p>My next major work was to get whatsapp web working, so that I could use it on my other devices (of course, not going to run the emulator each time I have to use it).</p>
+<p>To do so, whatsapp requires web versions to have their QR code scanned by the whatsapp application for login, so I used a usb camera that I had with me, but I got this error when I tried to use the webcam in my Windows VM:</p>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/cam_notFound_big.png#center"/> 
+</figure>
+
+<p>It required a &ldquo;Webcam Passthrough&rdquo;, so that the VM instance could access the USB camera.</p>
+<h3 id="steps-to-allow-webcam-passthrough-creditshttpsaskubuntucoma1237808">Steps to allow Webcam Passthrough [<a href="https://askubuntu.com/a/1237808">Credits</a>]:</h3>
+<ol>
+<li>
+<p>First install certain extra packages to get stuff working:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-get install virtualbox-guest-additions-iso virtualbox-ext-pack
+</span></span></code></pre></div></li>
+<li>
+<p>Next, we need to find our webcam details using this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">VBoxManage list webcams
+</span></span></code></pre></div><p>This should show us a list of (for me only 1) webcam/s attached to your host device.</p>
+</li>
+<li>
+<p>Now finally we need to connect this webcam to enable passthrough. Issue this command, by replacing the word <strong>Windows</strong> with the name of your VM instance and the .1 with the number that corresponds to your webcam as listed in step 2 (in most cases, it should be .1):</p>
+<p><em><strong>NOTE: This command must be run only when your windows VM is running.</strong></em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">VBoxManage controlvm <span class="s2">&#34;Windows&#34;</span> webcam attach .1
+</span></span></code></pre></div></li>
+</ol>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/list_Webcam.png#center"/> 
+</figure>
+
+<p><em>NOTE: If you shutdown or restart your VM, it will loose access to the camera. You need to re-run the step 3 command to get it working.</em></p>
+<h3 id="conclusion">Conclusion</h3>
+<p>With this much, my VM was able to detect the webcam and without much difficulty, I was able to register with the whatsapp web version on my devices.</p>
+<p>A small caveat though, remember to open the whatsapp in your windows VM every 14 days to avoid getting logged out of your whatsapp web devices.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Sign a Custom ROM Build</title>
+      <link>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</link>
+      <pubDate>Sun, 26 May 2024 21:05:20 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</guid>
+      <description>&lt;p&gt;This guide will explain how to &lt;strong&gt;sign&lt;/strong&gt; a Custom ROM build (typically unofficial builds, as most official ROMs are now shipping their own private keys).&lt;/p&gt;
+&lt;p&gt;I will use the &lt;a href=&#34;https://wiki.lineageos.org/signing_builds&#34;&gt;Lineage wiki guide&lt;/a&gt;, but simplify it in my own words at places where I feel this guide did not give more practical information to a new comer like me.&lt;/p&gt;
+&lt;h4 id=&#34;the-steps-to-generate-the-keys-are-as-follows&#34;&gt;The steps to generate the keys are as follows:&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You only need to run this once. If you ever rerun these, you’ll need to migrate between builds.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>This guide will explain how to <strong>sign</strong> a Custom ROM build (typically unofficial builds, as most official ROMs are now shipping their own private keys).</p>
+<p>I will use the <a href="https://wiki.lineageos.org/signing_builds">Lineage wiki guide</a>, but simplify it in my own words at places where I feel this guide did not give more practical information to a new comer like me.</p>
+<h4 id="the-steps-to-generate-the-keys-are-as-follows">The steps to generate the keys are as follows:</h4>
+<p><strong>NOTE</strong>: You only need to run this once. If you ever rerun these, you’ll need to migrate between builds.</p>
+<ol>
+<li>
+<p>Go to the directory where all yours rom files are originally synced (the root of your custom rom files). Now open a terminal and issue this command:</p>
+<p><strong>NOTE</strong>: Please note this beforehand that running the following code will ask you to enter password for several keys and several number of times. I will say that just enter 1 password and copy+paste it on all the places where it asks for a password to be entered.</p>
+<p><strong><em>DO NOTE THIS PASSWORD DOWN, as we will have to use it when we sign the builds.</em></strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">subject</span><span class="o">=</span><span class="s1">&#39;/C=US/ST=California/L=Mountain View/O=Android/OU=Android/CN=Android/emailAddress=android@android.com&#39;</span>
+</span></span><span class="line"><span class="cl">mkdir ~/.android-certs
+</span></span><span class="line"><span class="cl"><span class="k">for</span> cert in bluetooth cyngn-app media networkstack platform releasekey sdk_sandbox shared testcert testkey verity<span class="p">;</span> <span class="k">do</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    ./development/tools/make_key ~/.android-certs/<span class="nv">$cert</span> <span class="s2">&#34;</span><span class="nv">$subject</span><span class="s2">&#34;</span><span class="p">;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="k">done</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Now we are required to re-sign APEX keys. To do so, simply run the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp ./development/tools/make_key ~/.android-certs/
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s|2048|4096|g&#39;</span> ~/.android-certs/make_key
+</span></span></code></pre></div></li>
+<li>
+<p>Now finally, we must generate our keys. I will strongly recommend you to generate them <strong>with</strong> a password (re-use the password you used in step 1).</p>
+<p>The command to run is in <a href="https://wiki.lineageos.org/signing_builds#generate-keys-with-a-password">here</a></p>
+<p><strong>NOTE</strong>: If you have issues following up with these steps, I have a script that will execute the commands for you (of course, you have to manually enter the password for each keys). You can find that script <a href="https://github.com/ObsidianMaximus/scripts/blob/master/signing/Generate_Keys.sh">here</a></p>
+<p>Usage (copy paste this in terminal):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -O https://raw.githubusercontent.com/ObsidianMaximus/scripts/master/signing/Generate_Keys.sh
+</span></span><span class="line"><span class="cl">bash Generate_Keys.sh
+</span></span></code></pre></div></li>
+</ol>
+<h4 id="now-the-steps-to-make-a-zip-flashable-package-are-as-follows">Now, the steps to <strong>make a .zip flashable package</strong> are as follows:</h4>
+<ol>
+<li>
+<p>Source the envsetup.sh by executing this command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> build/envsetup.sh
+</span></span></code></pre></div></li>
+<li>
+<p>Now finally, we will have to start compiling the files for our custom ROM (this will take a long time, depending on your computer&rsquo;s specs). To do so, run the following command (replacing the codename with your device codename):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">breakfast &lt;codename&gt;
+</span></span><span class="line"><span class="cl">mka target-files-package otatools
+</span></span></code></pre></div></li>
+<li>
+<p>Now, it is time to sign all of our APKs and APEXes and build the .zip package.</p>
+<p>We will use 2 environment variables to ease our task, as they will allow us to sign without having to enter the password several times. For that, we must issue these 2 commands in the terminal:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">ANDROID_PW_FILE</span><span class="o">=</span>/path/to/your/password/file
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">EDITOR</span><span class="o">=</span>your_preferred_text_editor
+</span></span></code></pre></div><p><strong>NOTE</strong>: <em>Replace the fields above as required. For the <strong>ANDROID_PW_FILE</strong>, just create a file somewhere and input its path there. As for the <strong>EDITOR</strong> variable, choose whichever editor you like (eg. vim, nano, codium, etc).</em></p>
+<p>Next run the following commands to call the script to start signing:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -O https://raw.githubusercontent.com/ObsidianMaximus/scripts/master/signing/Sign.sh
+</span></span><span class="line"><span class="cl">bash Sign.sh
+</span></span></code></pre></div><p><strong>NOTE</strong>: <em>This script will invoke a command &ldquo;<strong>sign_target_files_apks</strong>&rdquo;, which should open the editor which you specified above, but if it does not, then open the file that you had given above in <strong>&ldquo;ANDROID_PW_FILE&rdquo;</strong> and you should have stuff inside of it with empty spaces in these &ldquo;[[[      ]]]&rdquo; brackets.</em></p>
+<p>Fill the password in this empty space for all the apks [make sure to fill it between the 3 left and 3 right brackets], and then save this file, and re-run the above script by simple doing: <strong><code>bash Sign.sh</code></strong>.</p>
+<p><strong>NOTE</strong>: Wait patiently, it can take some time to do all of the above process.</p>
+</li>
+</ol>
+<p>Congratulations, you have successfully signed the build. Now in case you are wondering where the .zip file is (no, it is not in the usual out/ directory), the .zip is right in the android root tree, where you issued the commands from.</p>
+<p>Just clean flash the <strong>signed-ota_update.zip</strong> and device integrity should be met now.</p>
+<hr>
+<p><strong>Update:</strong> Just confirmed that dirty flashing this build over the previous unsigned ROM also works.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Use SSH or Rsync With Android</title>
+      <link>https://krishnayadav.xyz/posts/use-ssh-or-rsync-with-android/</link>
+      <pubDate>Fri, 26 Apr 2024 09:28:58 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/use-ssh-or-rsync-with-android/</guid>
+      <description>&lt;p&gt;Today, I wanted to send a file from my desktop to my android device. I thought of using rsync for this purpose, which is a tool that I use frequently to sync files between my desktop and my laptop.&lt;/p&gt;
+&lt;p&gt;I thought of giving it a try and came across &lt;a href=&#34;https://howtos.davidsebek.com/android-rsync-termux.html&#34;&gt;this great article&lt;/a&gt; that explained just this.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE: This guide requires both the computer and the Android device to be on the same wifi network.&lt;/strong&gt;&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>Today, I wanted to send a file from my desktop to my android device. I thought of using rsync for this purpose, which is a tool that I use frequently to sync files between my desktop and my laptop.</p>
+<p>I thought of giving it a try and came across <a href="https://howtos.davidsebek.com/android-rsync-termux.html">this great article</a> that explained just this.</p>
+<p><strong>NOTE: This guide requires both the computer and the Android device to be on the same wifi network.</strong></p>
+<h3 id="the-process-to-send-files-from-pc-to-android">The process to send files from PC to Android</h3>
+<ol>
+<li>Install rsync on termux using the command: <strong><code>apt install rsync</code></strong> and install openssh using the command: <strong><code>apt install openssh</code></strong>.</li>
+<li>Then setup the internal storage of our Android device to be accessible by termux using the command: <strong><code>termux-setup-storage</code></strong>. Grant termux the permission to access storage when prompted.</li>
+<li>Now, change the sshd config file to allow termux to use SSH port. Termux does not have the permission to use the default SSH port 22, so we will use 8022 port instead (can use any available port). For doing this, edit the ../usr/etc/ssh/sshd_config file by simply using the command: <strong><code>echo &quot;Port 8022&quot; &gt;&gt; ../usr/etc/ssh/sshd_config</code></strong></li>
+<li>Let&rsquo;s get the local ip address of our device by using the command: <strong><code>ifconfig</code></strong>. The ip address should be usually in the end and will be after &ldquo;inet&rdquo; . Or you can just go to Settings app and click on wifi and select the wifi you are connected to and look for the ipv4 address. In either of these 2 cases, the ip address should usually begin with <strong>192.168.xx.xx</strong> where x&rsquo;s are to be replaced by your ip address part.</li>
+<li>Setup a password for the user by using the command: <strong><code>passwd</code></strong>.</li>
+<li>Finally, we have to start the SSH daemon. To do this, enter this in termux: <strong><code>sshd</code></strong>.</li>
+</ol>
+<h4 id="for-using-ssh">For using SSH</h4>
+<ol>
+<li>Open terminal on your pc and type: <strong><code>ssh -p 8022 192.168.xx.xx</code></strong> [where the x&rsquo;s are replaced by your ipv4 address part].</li>
+<li>You should now be able to use android terminal through your desktop terminal.</li>
+</ol>
+<h4 id="for-using-rsync">For using Rsync</h4>
+<ol>
+<li>
+<p>Simply enter the command : <strong><code>rsync -e 'ssh -p 8022' &lt;file to transfer from pc&gt; 192.168.xx.xx:/data/data/com.termux/files/home/storage/</code></strong></p>
+<p>Explanation of some stuff in the above commands :</p>
+<ul>
+<li>The -e command is used to specify the remote shell to use. For more details, check the manpage of rsync.</li>
+<li>The x&rsquo;s replace your ipv4 address parts.</li>
+<li><strong>/data/data/com.termux/files/home/storage/</strong> is the &ldquo;usual&rdquo; path of the main storage in our Android which the user can access, so we are sending the file from our desktop to our Android device&rsquo;s internal storage using this. You can specify some folder to send the file into directly by simply adding the folder after <strong>storage/</strong> in the command. If this shows an error message when you try to transfer files, just type: <strong><code>pwd</code></strong> in termux to get your current directory where you wish to send/receive the files and replace output of this command with the path in the step 1 command above after your phone&rsquo;s ip address.</li>
+<li>This should work in vice-versa as well. Just add the path to copy from Android first and the path to copy to in your desktop after this.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="note">Note</h3>
+<ul>
+<li>
+<p>To avoid entering password all the time while accessing SSH/Rsync, generate a key pair on your pc using the command: <strong><code>ssh-keygen -t ed25519</code></strong> and then copy it to Android using the command: <strong><code>ssh-copy-id -p 8022 192.168.xx.xx</code></strong> in your desktop terminal. This will ask you password only once and after authenticating it, you can now just use SSH/Rsync without entering that password which we generated in the &ldquo;Step 5&rdquo; in the beginning.</p>
+</li>
+<li>
+<p><strong>REMEMBER</strong> that the ip address of your android device can change from time to time due to ip addresses being dynamic when using wifi. Or they &ldquo;may&rdquo; change if the router is restarted. In any case, be sure to repeat the &ldquo;Step 4&rdquo; which we did in the beginning to find our local ip address.</p>
+</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Boot Image Extraction Guide</title>
+      <link>https://krishnayadav.xyz/posts/boot-image-extraction-guide/</link>
+      <pubDate>Wed, 24 Apr 2024 21:53:31 +0530</pubDate>
+      <guid>https://krishnayadav.xyz/posts/boot-image-extraction-guide/</guid>
+      <description>&lt;p&gt;Guide on how to extract a boot image from any Android phone [Requires Magisk and Computer]&lt;/p&gt;
+&lt;h2 id=&#34;getting-started&#34;&gt;Getting started!&lt;/h2&gt;
+&lt;p&gt;Accessing and modifying system files on your device typically requires superuser permissions. To extract the boot image, we&amp;rsquo;ll need a root environment. We&amp;rsquo;ll achieve this by using Magisk.&lt;/p&gt;
+&lt;h4 id=&#34;procedure&#34;&gt;Procedure&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;First, make sure you install TWRP and then flash Magisk through it.&lt;/li&gt;
+&lt;li&gt;Setup Magisk in your phone.&lt;/li&gt;
+&lt;li&gt;Connect your phone to your Computer and type adb shell [Ensure that you have adb setup properly].&lt;/li&gt;
+&lt;li&gt;Now, become root by typing &lt;strong&gt;su&lt;/strong&gt; in the shell on your PC.&lt;/li&gt;
+&lt;li&gt;Copy/Paste the following code in the shell.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; PARTITION in &lt;span class=&#34;s2&#34;&gt;&amp;#34;boot&amp;#34;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;boot_a&amp;#34;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;boot_b&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nv&#34;&gt;BLOCK&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;find /dev/block &lt;span class=&#34;se&#34;&gt;\(&lt;/span&gt; -type b -o -type c -o -type l &lt;span class=&#34;se&#34;&gt;\)&lt;/span&gt; -iname &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PARTITION&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; -print -quit 2&amp;gt;/dev/null&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; -n &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$BLOCK&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PARTITION&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;readlink -f &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$BLOCK&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This command will display the boot partition paths for both A/B and A-only devices.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>Guide on how to extract a boot image from any Android phone [Requires Magisk and Computer]</p>
+<h2 id="getting-started">Getting started!</h2>
+<p>Accessing and modifying system files on your device typically requires superuser permissions. To extract the boot image, we&rsquo;ll need a root environment. We&rsquo;ll achieve this by using Magisk.</p>
+<h4 id="procedure">Procedure</h4>
+<ol>
+<li>First, make sure you install TWRP and then flash Magisk through it.</li>
+<li>Setup Magisk in your phone.</li>
+<li>Connect your phone to your Computer and type adb shell [Ensure that you have adb setup properly].</li>
+<li>Now, become root by typing <strong>su</strong> in the shell on your PC.</li>
+<li>Copy/Paste the following code in the shell.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="k">for</span> PARTITION in <span class="s2">&#34;boot&#34;</span> <span class="s2">&#34;boot_a&#34;</span> <span class="s2">&#34;boot_b&#34;</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">BLOCK</span><span class="o">=</span><span class="k">$(</span>find /dev/block <span class="se">\(</span> -type b -o -type c -o -type l <span class="se">\)</span> -iname <span class="s2">&#34;</span><span class="nv">$PARTITION</span><span class="s2">&#34;</span> -print -quit 2&gt;/dev/null<span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[</span> -n <span class="s2">&#34;</span><span class="nv">$BLOCK</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$PARTITION</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="k">$(</span>readlink -f <span class="s2">&#34;</span><span class="nv">$BLOCK</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p>This command will display the boot partition paths for both A/B and A-only devices.</p>
+<p><strong>Note: On <a href="https://source.android.com/docs/core/ota/ab">A/B devices</a>, the loop command will display the boot partition paths for both slots, something like this!</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">boot_a</span> <span class="o">=</span> /dev/block/sda40
+</span></span><span class="line"><span class="cl"><span class="nv">boot_b</span> <span class="o">=</span> /dev/block/sda41
+</span></span></code></pre></div><p>In this case, you can extract the image corresponding to your currently active slot.To determine the active slot, enter the command <code>getprop ro.boot.slot_suffix</code>. If the output is _a, use the path for boot_a; otherwise, use the path for boot_b.</p>
+<ol start="6">
+<li>Finally, use the following command to extract the image from the specified boot path:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>&lt;boot_partition_path&gt; <span class="nv">of</span><span class="o">=</span>&lt;output_path&gt;
+</span></span></code></pre></div><p>For example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>/dev/block/mmcblk0p42 <span class="nv">of</span><span class="o">=</span>/sdcard/boot_a.img
+</span></span></code></pre></div><p>I hope this did work for you, as it did indeed work for me!</p>
+<p>CREDITS : <a href="https://gist.github.com/gitclone-url/a1f693b64d8f8701ec24477a2ccaab87">Here</a></p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>
