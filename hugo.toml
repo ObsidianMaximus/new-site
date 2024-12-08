@@ -80,7 +80,7 @@ ShowFullTextinRSS = true  # Enabled to give full rss feed instead of a summary o
   hiddenInSingle = true
 
   [params.editPost]
-  URL = "https://github.com/obsidianmaximus/obsidianmaximus.github.io/content"
+  URL = "https://github.com/obsidianmaximus/new-site/blob/master/content"
   Text = "Suggest Changes"
   appendFilePath = true
 
