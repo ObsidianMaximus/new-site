@@ -54,7 +54,7 @@ Cryptographic API --->
     Compression --->
         <*> zstd
 ```
-{{< figure align=center src="/img/list_Webcam.png">}}
+{{< figure align=center src="/img/enable_ZSTD.png">}}
 
 
 6. Go back to the main menu and navigate to the following place to enable ZRAM:
@@ -71,7 +71,7 @@ Make sure to Change “Compressed RAM block device support” from M to *, if it
 
 7. In this same place under "Compressed RAM block device support", you can also set the compression algorithm via the submenu "Default ZRAM compressor". I set it to ZSTD.
 
-{{< figure align=center src="/img/list_Webcam.png">}}
+{{< figure align=center src="/img/setting_COMP_Algo.png">}}
 
 8. Finally save the config from bottom menu panel and exit. Let us now compile the kernel with:
 

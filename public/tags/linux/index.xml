@@ -49,7 +49,7 @@
 </span></span><span class="line"><span class="cl">    Compression ---&gt;
 </span></span><span class="line"><span class="cl">        &lt;*&gt; zstd
 </span></span></code></pre></div><figure class="align-center ">
-    <img loading="lazy" src="/img/list_Webcam.png#center"/> 
+    <img loading="lazy" src="/img/enable_ZSTD.png#center"/> 
 </figure>
 
 <ol start="6">
@@ -65,7 +65,7 @@
 <li>In this same place under &ldquo;Compressed RAM block device support&rdquo;, you can also set the compression algorithm via the submenu &ldquo;Default ZRAM compressor&rdquo;. I set it to ZSTD.</li>
 </ol>
 <figure class="align-center ">
-    <img loading="lazy" src="/img/list_Webcam.png#center"/> 
+    <img loading="lazy" src="/img/setting_COMP_Algo.png#center"/> 
 </figure>
 
 <ol start="8">
