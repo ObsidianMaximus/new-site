@@ -31,6 +31,7 @@ ShowFullTextinRSS = true  # Enabled to give full rss feed instead of a summary o
   favicon = "favicon.png"
   favicon16x16 = "favicon.png"
   favicon32x32 = "favicon.png"
+  disableFingerprinting = true
 
   [params.label]
   text = "Hello there, welcome!"
