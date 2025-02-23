@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Ubuntu on Krishna&#39;s Webplace</title>
-    <link>http://localhost:1313/tags/ubuntu/</link>
+    <link>https://krishnayadav.xyz/tags/ubuntu/</link>
     <description>Recent content in Ubuntu on Krishna&#39;s Webplace</description>
     <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
     <lastBuildDate>Sat, 22 Jun 2024 20:35:26 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://krishnayadav.xyz/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ubuntu Server Setup Part 2: Installing Nextcloud</title>
-      <link>http://localhost:1313/posts/ubuntu-server-setup-part-2-installing-nextcloud/</link>
+      <link>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</link>
       <pubDate>Sat, 22 Jun 2024 20:35:26 +0530</pubDate>
-      <guid>http://localhost:1313/posts/ubuntu-server-setup-part-2-installing-nextcloud/</guid>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</guid>
       <description>&lt;p&gt;I finally setup my Ubuntu server quite well along with wifi drivers.&lt;/p&gt;
 &lt;p&gt;Next up, I had to install Nextcloud, because I wanted a cloud storage that could backup and sync photos, videos and other stuff from several devices at my home. Thus I looked up a tutorial on it and found one by Jay, which was extremely easy to follow and helped me setup my Nextcloud instance from scratch.&lt;/p&gt;
 &lt;h3 id=&#34;the-steps-to-setup-nextcloud&#34;&gt;The steps to setup Nextcloud&lt;/h3&gt;
@@ -198,9 +198,9 @@
     </item>
     <item>
       <title>Ubuntu Server Setup Part-1</title>
-      <link>http://localhost:1313/posts/ubuntu-server-setup-part-1/</link>
+      <link>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-1/</link>
       <pubDate>Tue, 30 Apr 2024 19:46:03 +0530</pubDate>
-      <guid>http://localhost:1313/posts/ubuntu-server-setup-part-1/</guid>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-1/</guid>
       <description>&lt;p&gt;I was wanting to learn on how to setup my servers and host stuff on them, but to host a server online, one needs to spend some amount of money on them, which i really didn&amp;rsquo;t want to. But then i remembered that i have one old dusty home computer that had been lying in my home since several years, while not really being used anymore.&lt;/p&gt;
 &lt;p&gt;So i decided to use this opportunity to reuse the same computer for my server tasks and in this way, i will be saving up on those server costs that i would have to pay [electricity is cheap here].&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>I was wanting to learn on how to setup my servers and host stuff on them, but to host a server online, one needs to spend some amount of money on them, which i really didn&rsquo;t want to. But then i remembered that i have one old dusty home computer that had been lying in my home since several years, while not really being used anymore.</p>
@@ -228,9 +228,9 @@ Executing the commands in the script installed all it&rsquo;s drivers. Now next,
     </item>
     <item>
       <title>Ubuntu Touch Port Part 1</title>
-      <link>http://localhost:1313/posts/ubuntu-touch-port-part-1/</link>
+      <link>https://krishnayadav.xyz/posts/ubuntu-touch-port-part-1/</link>
       <pubDate>Thu, 25 Apr 2024 13:38:00 +0530</pubDate>
-      <guid>http://localhost:1313/posts/ubuntu-touch-port-part-1/</guid>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-touch-port-part-1/</guid>
       <description>&lt;h2 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h2&gt;
 &lt;p&gt;So I recently decided to get more involved in the Android world and came about a &amp;rsquo;new&amp;rsquo; type of OS, known as Ubuntu Touch. I thought a bit on it and decided to start the porting process for it for my device Realme GT Neo 2 [codenamed:bitra].&lt;/p&gt;
 &lt;p&gt;I started with the &lt;a href=&#34;https://docs.ubports.com/en/latest/porting/introduction/index.html&#34;&gt;official documentation of UBports&lt;/a&gt; where in they gave some good amount of introduction on how and why certain things needed to be done.&lt;/p&gt;</description>

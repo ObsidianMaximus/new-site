@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on Krishna&#39;s Webplace</title>
-    <link>http://localhost:1313/posts/</link>
+    <link>https://krishnayadav.xyz/posts/</link>
     <description>Recent content in Posts on Krishna&#39;s Webplace</description>
     <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
     <lastBuildDate>Thu, 20 Feb 2025 14:02:45 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://krishnayadav.xyz/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ZRAM in WSL2</title>
-      <link>http://localhost:1313/posts/zram-in-wsl2/</link>
+      <link>https://krishnayadav.xyz/posts/zram-in-wsl2/</link>
       <pubDate>Thu, 20 Feb 2025 14:02:45 +0530</pubDate>
-      <guid>http://localhost:1313/posts/zram-in-wsl2/</guid>
+      <guid>https://krishnayadav.xyz/posts/zram-in-wsl2/</guid>
       <description>&lt;p&gt;If you have been using WSL2 on Windows, you would be quite surprised and satisfied at the same time for how well it works as a Linux CLI.&lt;/p&gt;
 &lt;p&gt;And so was I, because it allows you the convenience of Windows + the flexibility of Linux systems. It acts as a bridge between the two, and you can run Linux commands on Windows, and Windows commands on Linux.&lt;/p&gt;
 &lt;p&gt;For this reason, I use it to build custom ROMs for my Android devices. But with Android 15, the system requirements have been upped from 32gb to 64gb, and I have only 32gb of RAM on my desktop.&lt;/p&gt;</description>
@@ -126,9 +126,9 @@
     </item>
     <item>
       <title>Ubuntu Server Setup Part 2: Installing Nextcloud</title>
-      <link>http://localhost:1313/posts/ubuntu-server-setup-part-2-installing-nextcloud/</link>
+      <link>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</link>
       <pubDate>Sat, 22 Jun 2024 20:35:26 +0530</pubDate>
-      <guid>http://localhost:1313/posts/ubuntu-server-setup-part-2-installing-nextcloud/</guid>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</guid>
       <description>&lt;p&gt;I finally setup my Ubuntu server quite well along with wifi drivers.&lt;/p&gt;
 &lt;p&gt;Next up, I had to install Nextcloud, because I wanted a cloud storage that could backup and sync photos, videos and other stuff from several devices at my home. Thus I looked up a tutorial on it and found one by Jay, which was extremely easy to follow and helped me setup my Nextcloud instance from scratch.&lt;/p&gt;
 &lt;h3 id=&#34;the-steps-to-setup-nextcloud&#34;&gt;The steps to setup Nextcloud&lt;/h3&gt;
@@ -314,9 +314,9 @@
     </item>
     <item>
       <title>Whatsapp Without Phone</title>
-      <link>http://localhost:1313/posts/whatsapp-without-phone/</link>
+      <link>https://krishnayadav.xyz/posts/whatsapp-without-phone/</link>
       <pubDate>Wed, 29 May 2024 20:43:23 +0530</pubDate>
-      <guid>http://localhost:1313/posts/whatsapp-without-phone/</guid>
+      <guid>https://krishnayadav.xyz/posts/whatsapp-without-phone/</guid>
       <description>&lt;p&gt;I had stopped using whatsapp because I didn&amp;rsquo;t want to have it&amp;rsquo;s proprietary app on my de-googled device.&lt;/p&gt;
 &lt;h3 id=&#34;the-issue&#34;&gt;The Issue&lt;/h3&gt;
 &lt;p&gt;But you see, this application is used by most of my academic professors and other colleages, so I had to somehow use it (without the app on my phone, of course).&lt;/p&gt;
@@ -371,9 +371,9 @@
     </item>
     <item>
       <title>Sign a Custom ROM Build</title>
-      <link>http://localhost:1313/posts/sign-a-custom-rom-build/</link>
+      <link>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</link>
       <pubDate>Sun, 26 May 2024 21:05:20 +0530</pubDate>
-      <guid>http://localhost:1313/posts/sign-a-custom-rom-build/</guid>
+      <guid>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</guid>
       <description>&lt;p&gt;This guide will explain how to &lt;strong&gt;sign&lt;/strong&gt; a Custom ROM build (typically unofficial builds, as most official ROMs are now shipping their own private keys).&lt;/p&gt;
 &lt;p&gt;I will use the &lt;a href=&#34;https://wiki.lineageos.org/signing_builds&#34;&gt;Lineage wiki guide&lt;/a&gt;, but simplify it in my own words at places where I feel this guide did not give more practical information to a new comer like me.&lt;/p&gt;
 &lt;h4 id=&#34;the-steps-to-generate-the-keys-are-as-follows&#34;&gt;The steps to generate the keys are as follows:&lt;/h4&gt;
@@ -440,9 +440,9 @@
     </item>
     <item>
       <title>Ubuntu Server Setup Part-1</title>
-      <link>http://localhost:1313/posts/ubuntu-server-setup-part-1/</link>
+      <link>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-1/</link>
       <pubDate>Tue, 30 Apr 2024 19:46:03 +0530</pubDate>
-      <guid>http://localhost:1313/posts/ubuntu-server-setup-part-1/</guid>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-1/</guid>
       <description>&lt;p&gt;I was wanting to learn on how to setup my servers and host stuff on them, but to host a server online, one needs to spend some amount of money on them, which i really didn&amp;rsquo;t want to. But then i remembered that i have one old dusty home computer that had been lying in my home since several years, while not really being used anymore.&lt;/p&gt;
 &lt;p&gt;So i decided to use this opportunity to reuse the same computer for my server tasks and in this way, i will be saving up on those server costs that i would have to pay [electricity is cheap here].&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>I was wanting to learn on how to setup my servers and host stuff on them, but to host a server online, one needs to spend some amount of money on them, which i really didn&rsquo;t want to. But then i remembered that i have one old dusty home computer that had been lying in my home since several years, while not really being used anymore.</p>
@@ -470,9 +470,9 @@ Executing the commands in the script installed all it&rsquo;s drivers. Now next,
     </item>
     <item>
       <title>Use SSH or Rsync With Android</title>
-      <link>http://localhost:1313/posts/use-ssh-or-rsync-with-android/</link>
+      <link>https://krishnayadav.xyz/posts/use-ssh-or-rsync-with-android/</link>
       <pubDate>Fri, 26 Apr 2024 09:28:58 +0530</pubDate>
-      <guid>http://localhost:1313/posts/use-ssh-or-rsync-with-android/</guid>
+      <guid>https://krishnayadav.xyz/posts/use-ssh-or-rsync-with-android/</guid>
       <description>&lt;p&gt;Today, I wanted to send a file from my desktop to my android device. I thought of using rsync for this purpose, which is a tool that I use frequently to sync files between my desktop and my laptop.&lt;/p&gt;
 &lt;p&gt;I thought of giving it a try and came across &lt;a href=&#34;https://howtos.davidsebek.com/android-rsync-termux.html&#34;&gt;this great article&lt;/a&gt; that explained just this.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE: This guide requires both the computer and the Android device to be on the same wifi network.&lt;/strong&gt;&lt;/p&gt;</description>
@@ -520,9 +520,9 @@ Executing the commands in the script installed all it&rsquo;s drivers. Now next,
     </item>
     <item>
       <title>Ubuntu Touch Port Part 1</title>
-      <link>http://localhost:1313/posts/ubuntu-touch-port-part-1/</link>
+      <link>https://krishnayadav.xyz/posts/ubuntu-touch-port-part-1/</link>
       <pubDate>Thu, 25 Apr 2024 13:38:00 +0530</pubDate>
-      <guid>http://localhost:1313/posts/ubuntu-touch-port-part-1/</guid>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-touch-port-part-1/</guid>
       <description>&lt;h2 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h2&gt;
 &lt;p&gt;So I recently decided to get more involved in the Android world and came about a &amp;rsquo;new&amp;rsquo; type of OS, known as Ubuntu Touch. I thought a bit on it and decided to start the porting process for it for my device Realme GT Neo 2 [codenamed:bitra].&lt;/p&gt;
 &lt;p&gt;I started with the &lt;a href=&#34;https://docs.ubports.com/en/latest/porting/introduction/index.html&#34;&gt;official documentation of UBports&lt;/a&gt; where in they gave some good amount of introduction on how and why certain things needed to be done.&lt;/p&gt;</description>
@@ -558,9 +558,9 @@ Executing the commands in the script installed all it&rsquo;s drivers. Now next,
     </item>
     <item>
       <title>Boot Image Extraction Guide</title>
-      <link>http://localhost:1313/posts/boot-image-extraction-guide/</link>
+      <link>https://krishnayadav.xyz/posts/boot-image-extraction-guide/</link>
       <pubDate>Wed, 24 Apr 2024 21:53:31 +0530</pubDate>
-      <guid>http://localhost:1313/posts/boot-image-extraction-guide/</guid>
+      <guid>https://krishnayadav.xyz/posts/boot-image-extraction-guide/</guid>
       <description>&lt;p&gt;Guide on how to extract a boot image from any Android phone [Requires Magisk and Computer]&lt;/p&gt;
 &lt;h2 id=&#34;getting-started&#34;&gt;Getting started!&lt;/h2&gt;
 &lt;p&gt;Accessing and modifying system files on your device typically requires superuser permissions. To extract the boot image, we&amp;rsquo;ll need a root environment. We&amp;rsquo;ll achieve this by using Magisk.&lt;/p&gt;

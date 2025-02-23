@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Rom on Krishna&#39;s Webplace</title>
-    <link>http://localhost:1313/tags/rom/</link>
+    <link>https://krishnayadav.xyz/tags/rom/</link>
     <description>Recent content in Rom on Krishna&#39;s Webplace</description>
     <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
     <lastBuildDate>Sun, 26 May 2024 21:05:20 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/rom/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://krishnayadav.xyz/tags/rom/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Sign a Custom ROM Build</title>
-      <link>http://localhost:1313/posts/sign-a-custom-rom-build/</link>
+      <link>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</link>
       <pubDate>Sun, 26 May 2024 21:05:20 +0530</pubDate>
-      <guid>http://localhost:1313/posts/sign-a-custom-rom-build/</guid>
+      <guid>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</guid>
       <description>&lt;p&gt;This guide will explain how to &lt;strong&gt;sign&lt;/strong&gt; a Custom ROM build (typically unofficial builds, as most official ROMs are now shipping their own private keys).&lt;/p&gt;
 &lt;p&gt;I will use the &lt;a href=&#34;https://wiki.lineageos.org/signing_builds&#34;&gt;Lineage wiki guide&lt;/a&gt;, but simplify it in my own words at places where I feel this guide did not give more practical information to a new comer like me.&lt;/p&gt;
 &lt;h4 id=&#34;the-steps-to-generate-the-keys-are-as-follows&#34;&gt;The steps to generate the keys are as follows:&lt;/h4&gt;

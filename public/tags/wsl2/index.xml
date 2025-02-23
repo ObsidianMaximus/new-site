@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>WSL2 on Krishna&#39;s Webplace</title>
-    <link>http://localhost:1313/tags/wsl2/</link>
+    <link>https://krishnayadav.xyz/tags/wsl2/</link>
     <description>Recent content in WSL2 on Krishna&#39;s Webplace</description>
     <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
     <lastBuildDate>Thu, 20 Feb 2025 14:02:45 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/wsl2/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://krishnayadav.xyz/tags/wsl2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ZRAM in WSL2</title>
-      <link>http://localhost:1313/posts/zram-in-wsl2/</link>
+      <link>https://krishnayadav.xyz/posts/zram-in-wsl2/</link>
       <pubDate>Thu, 20 Feb 2025 14:02:45 +0530</pubDate>
-      <guid>http://localhost:1313/posts/zram-in-wsl2/</guid>
+      <guid>https://krishnayadav.xyz/posts/zram-in-wsl2/</guid>
       <description>&lt;p&gt;If you have been using WSL2 on Windows, you would be quite surprised and satisfied at the same time for how well it works as a Linux CLI.&lt;/p&gt;
 &lt;p&gt;And so was I, because it allows you the convenience of Windows + the flexibility of Linux systems. It acts as a bridge between the two, and you can run Linux commands on Windows, and Windows commands on Linux.&lt;/p&gt;
 &lt;p&gt;For this reason, I use it to build custom ROMs for my Android devices. But with Android 15, the system requirements have been upped from 32gb to 64gb, and I have only 32gb of RAM on my desktop.&lt;/p&gt;</description>
@@ -44,23 +44,23 @@
 </span></span></code></pre></div><ol start="5">
 <li>This should open the menu. Navigate to the following place to enable ZSTD [or any other compression algorithm you prefer]:</li>
 </ol>
-<p>Crypto API → Compression → &lt;<em>&gt; ZSTD compression algorithm
-Cryptographic API &mdash;&gt;
-Compression &mdash;&gt;
-&lt;</em>&gt; zstd</p>
-<figure class="align-center ">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Crypto API → Compression → &lt;*&gt; ZSTD compression algorithm
+</span></span><span class="line"><span class="cl">Cryptographic API ---&gt;
+</span></span><span class="line"><span class="cl">    Compression ---&gt;
+</span></span><span class="line"><span class="cl">        &lt;*&gt; zstd
+</span></span></code></pre></div><figure class="align-center ">
     <img loading="lazy" src="/img/list_Webcam.png#center"/> 
 </figure>
 
 <ol start="6">
 <li>Go back to the main menu and navigate to the following place to enable ZRAM:</li>
 </ol>
-<p>Device Drivers  &mdash;&gt;
-[<em>] Block devices  &mdash;&gt;
-&lt;</em>&gt; Compressed RAM block device support
-[<em>] Write back incompressible or idle page to backing device
-[</em>] Track zRam block status</p>
-<p>Make sure to Change “Compressed RAM block device support” from M to *, if it was previously set to M. To change it, simply press ‘Y’ at this option. M means a kernel module that can be loaded separately, and &lsquo;Y&rsquo; means that it will be built-in. In WSL2 Loadable module support is disabled when using a custom built kernel. We must set any modules to be built-in before building.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Device Drivers  ---&gt;
+</span></span><span class="line"><span class="cl">    <span class="o">[</span>*<span class="o">]</span> Block devices  ---&gt;
+</span></span><span class="line"><span class="cl">        &lt;*&gt; Compressed RAM block device support 
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>*<span class="o">]</span> Write back incompressible or idle page to backing device 
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>*<span class="o">]</span> Track zRam block status 
+</span></span></code></pre></div><p>Make sure to Change “Compressed RAM block device support” from M to *, if it was previously set to M. To change it, simply press ‘Y’ at this option. M means a kernel module that can be loaded separately, and &lsquo;Y&rsquo; means that it will be built-in. In WSL2 Loadable module support is disabled when using a custom built kernel. We must set any modules to be built-in before building.</p>
 <ol start="7">
 <li>In this same place under &ldquo;Compressed RAM block device support&rdquo;, you can also set the compression algorithm via the submenu &ldquo;Default ZRAM compressor&rdquo;. I set it to ZSTD.</li>
 </ol>
@@ -81,9 +81,9 @@ Compression &mdash;&gt;
 <ol start="10">
 <li>The WSL2 kernel must also be overwritten with this new kernel. Simply go to the C:\Users&lt;Username&gt; location and create a .wslconfig file with the following content:</li>
 </ol>
-<p>[wsl2]
-kernel=C:\Users\<!-- raw HTML omitted -->\.wsl-kernel\bzImage</p>
-<ol start="11">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">[</span><span class="no">wsl2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">kernel</span><span class="p">=</span><span class="n">C:</span><span class="p">\\</span><span class="n">Users</span><span class="p">\\&lt;</span><span class="n">Username</span><span class="p">&gt;\\.</span><span class="nb">wsl-kernel</span><span class="p">\\</span><span class="n">bzImage</span>
+</span></span></code></pre></div><ol start="11">
 <li>Now we have to restart the WSL2 instance. You can do so by running:</li>
 </ol>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">wsl</span> <span class="err">–</span><span class="n">shutdown</span>

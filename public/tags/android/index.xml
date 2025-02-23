@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Android on Krishna&#39;s Webplace</title>
-    <link>http://localhost:1313/tags/android/</link>
+    <link>https://krishnayadav.xyz/tags/android/</link>
     <description>Recent content in Android on Krishna&#39;s Webplace</description>
     <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
     <lastBuildDate>Thu, 20 Feb 2025 14:02:45 +0530</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/android/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://krishnayadav.xyz/tags/android/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ZRAM in WSL2</title>
-      <link>http://localhost:1313/posts/zram-in-wsl2/</link>
+      <link>https://krishnayadav.xyz/posts/zram-in-wsl2/</link>
       <pubDate>Thu, 20 Feb 2025 14:02:45 +0530</pubDate>
-      <guid>http://localhost:1313/posts/zram-in-wsl2/</guid>
+      <guid>https://krishnayadav.xyz/posts/zram-in-wsl2/</guid>
       <description>&lt;p&gt;If you have been using WSL2 on Windows, you would be quite surprised and satisfied at the same time for how well it works as a Linux CLI.&lt;/p&gt;
 &lt;p&gt;And so was I, because it allows you the convenience of Windows + the flexibility of Linux systems. It acts as a bridge between the two, and you can run Linux commands on Windows, and Windows commands on Linux.&lt;/p&gt;
 &lt;p&gt;For this reason, I use it to build custom ROMs for my Android devices. But with Android 15, the system requirements have been upped from 32gb to 64gb, and I have only 32gb of RAM on my desktop.&lt;/p&gt;</description>
@@ -44,23 +44,23 @@
 </span></span></code></pre></div><ol start="5">
 <li>This should open the menu. Navigate to the following place to enable ZSTD [or any other compression algorithm you prefer]:</li>
 </ol>
-<p>Crypto API → Compression → &lt;<em>&gt; ZSTD compression algorithm
-Cryptographic API &mdash;&gt;
-Compression &mdash;&gt;
-&lt;</em>&gt; zstd</p>
-<figure class="align-center ">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Crypto API → Compression → &lt;*&gt; ZSTD compression algorithm
+</span></span><span class="line"><span class="cl">Cryptographic API ---&gt;
+</span></span><span class="line"><span class="cl">    Compression ---&gt;
+</span></span><span class="line"><span class="cl">        &lt;*&gt; zstd
+</span></span></code></pre></div><figure class="align-center ">
     <img loading="lazy" src="/img/list_Webcam.png#center"/> 
 </figure>
 
 <ol start="6">
 <li>Go back to the main menu and navigate to the following place to enable ZRAM:</li>
 </ol>
-<p>Device Drivers  &mdash;&gt;
-[<em>] Block devices  &mdash;&gt;
-&lt;</em>&gt; Compressed RAM block device support
-[<em>] Write back incompressible or idle page to backing device
-[</em>] Track zRam block status</p>
-<p>Make sure to Change “Compressed RAM block device support” from M to *, if it was previously set to M. To change it, simply press ‘Y’ at this option. M means a kernel module that can be loaded separately, and &lsquo;Y&rsquo; means that it will be built-in. In WSL2 Loadable module support is disabled when using a custom built kernel. We must set any modules to be built-in before building.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Device Drivers  ---&gt;
+</span></span><span class="line"><span class="cl">    <span class="o">[</span>*<span class="o">]</span> Block devices  ---&gt;
+</span></span><span class="line"><span class="cl">        &lt;*&gt; Compressed RAM block device support 
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>*<span class="o">]</span> Write back incompressible or idle page to backing device 
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>*<span class="o">]</span> Track zRam block status 
+</span></span></code></pre></div><p>Make sure to Change “Compressed RAM block device support” from M to *, if it was previously set to M. To change it, simply press ‘Y’ at this option. M means a kernel module that can be loaded separately, and &lsquo;Y&rsquo; means that it will be built-in. In WSL2 Loadable module support is disabled when using a custom built kernel. We must set any modules to be built-in before building.</p>
 <ol start="7">
 <li>In this same place under &ldquo;Compressed RAM block device support&rdquo;, you can also set the compression algorithm via the submenu &ldquo;Default ZRAM compressor&rdquo;. I set it to ZSTD.</li>
 </ol>
@@ -81,9 +81,9 @@ Compression &mdash;&gt;
 <ol start="10">
 <li>The WSL2 kernel must also be overwritten with this new kernel. Simply go to the C:\Users&lt;Username&gt; location and create a .wslconfig file with the following content:</li>
 </ol>
-<p>[wsl2]
-kernel=C:\Users\<!-- raw HTML omitted -->\.wsl-kernel\bzImage</p>
-<ol start="11">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">[</span><span class="no">wsl2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">kernel</span><span class="p">=</span><span class="n">C:</span><span class="p">\\</span><span class="n">Users</span><span class="p">\\&lt;</span><span class="n">Username</span><span class="p">&gt;\\.</span><span class="nb">wsl-kernel</span><span class="p">\\</span><span class="n">bzImage</span>
+</span></span></code></pre></div><ol start="11">
 <li>Now we have to restart the WSL2 instance. You can do so by running:</li>
 </ol>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">wsl</span> <span class="err">–</span><span class="n">shutdown</span>
@@ -126,9 +126,9 @@ kernel=C:\Users\<!-- raw HTML omitted -->\.wsl-kernel\bzImage</p>
     </item>
     <item>
       <title>Whatsapp Without Phone</title>
-      <link>http://localhost:1313/posts/whatsapp-without-phone/</link>
+      <link>https://krishnayadav.xyz/posts/whatsapp-without-phone/</link>
       <pubDate>Wed, 29 May 2024 20:43:23 +0530</pubDate>
-      <guid>http://localhost:1313/posts/whatsapp-without-phone/</guid>
+      <guid>https://krishnayadav.xyz/posts/whatsapp-without-phone/</guid>
       <description>&lt;p&gt;I had stopped using whatsapp because I didn&amp;rsquo;t want to have it&amp;rsquo;s proprietary app on my de-googled device.&lt;/p&gt;
 &lt;h3 id=&#34;the-issue&#34;&gt;The Issue&lt;/h3&gt;
 &lt;p&gt;But you see, this application is used by most of my academic professors and other colleages, so I had to somehow use it (without the app on my phone, of course).&lt;/p&gt;
@@ -183,9 +183,9 @@ kernel=C:\Users\<!-- raw HTML omitted -->\.wsl-kernel\bzImage</p>
     </item>
     <item>
       <title>Sign a Custom ROM Build</title>
-      <link>http://localhost:1313/posts/sign-a-custom-rom-build/</link>
+      <link>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</link>
       <pubDate>Sun, 26 May 2024 21:05:20 +0530</pubDate>
-      <guid>http://localhost:1313/posts/sign-a-custom-rom-build/</guid>
+      <guid>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</guid>
       <description>&lt;p&gt;This guide will explain how to &lt;strong&gt;sign&lt;/strong&gt; a Custom ROM build (typically unofficial builds, as most official ROMs are now shipping their own private keys).&lt;/p&gt;
 &lt;p&gt;I will use the &lt;a href=&#34;https://wiki.lineageos.org/signing_builds&#34;&gt;Lineage wiki guide&lt;/a&gt;, but simplify it in my own words at places where I feel this guide did not give more practical information to a new comer like me.&lt;/p&gt;
 &lt;h4 id=&#34;the-steps-to-generate-the-keys-are-as-follows&#34;&gt;The steps to generate the keys are as follows:&lt;/h4&gt;
@@ -252,9 +252,9 @@ kernel=C:\Users\<!-- raw HTML omitted -->\.wsl-kernel\bzImage</p>
     </item>
     <item>
       <title>Use SSH or Rsync With Android</title>
-      <link>http://localhost:1313/posts/use-ssh-or-rsync-with-android/</link>
+      <link>https://krishnayadav.xyz/posts/use-ssh-or-rsync-with-android/</link>
       <pubDate>Fri, 26 Apr 2024 09:28:58 +0530</pubDate>
-      <guid>http://localhost:1313/posts/use-ssh-or-rsync-with-android/</guid>
+      <guid>https://krishnayadav.xyz/posts/use-ssh-or-rsync-with-android/</guid>
       <description>&lt;p&gt;Today, I wanted to send a file from my desktop to my android device. I thought of using rsync for this purpose, which is a tool that I use frequently to sync files between my desktop and my laptop.&lt;/p&gt;
 &lt;p&gt;I thought of giving it a try and came across &lt;a href=&#34;https://howtos.davidsebek.com/android-rsync-termux.html&#34;&gt;this great article&lt;/a&gt; that explained just this.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE: This guide requires both the computer and the Android device to be on the same wifi network.&lt;/strong&gt;&lt;/p&gt;</description>
@@ -302,9 +302,9 @@ kernel=C:\Users\<!-- raw HTML omitted -->\.wsl-kernel\bzImage</p>
     </item>
     <item>
       <title>Ubuntu Touch Port Part 1</title>
-      <link>http://localhost:1313/posts/ubuntu-touch-port-part-1/</link>
+      <link>https://krishnayadav.xyz/posts/ubuntu-touch-port-part-1/</link>
       <pubDate>Thu, 25 Apr 2024 13:38:00 +0530</pubDate>
-      <guid>http://localhost:1313/posts/ubuntu-touch-port-part-1/</guid>
+      <guid>https://krishnayadav.xyz/posts/ubuntu-touch-port-part-1/</guid>
       <description>&lt;h2 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h2&gt;
 &lt;p&gt;So I recently decided to get more involved in the Android world and came about a &amp;rsquo;new&amp;rsquo; type of OS, known as Ubuntu Touch. I thought a bit on it and decided to start the porting process for it for my device Realme GT Neo 2 [codenamed:bitra].&lt;/p&gt;
 &lt;p&gt;I started with the &lt;a href=&#34;https://docs.ubports.com/en/latest/porting/introduction/index.html&#34;&gt;official documentation of UBports&lt;/a&gt; where in they gave some good amount of introduction on how and why certain things needed to be done.&lt;/p&gt;</description>
@@ -340,9 +340,9 @@ kernel=C:\Users\<!-- raw HTML omitted -->\.wsl-kernel\bzImage</p>
     </item>
     <item>
       <title>Boot Image Extraction Guide</title>
-      <link>http://localhost:1313/posts/boot-image-extraction-guide/</link>
+      <link>https://krishnayadav.xyz/posts/boot-image-extraction-guide/</link>
       <pubDate>Wed, 24 Apr 2024 21:53:31 +0530</pubDate>
-      <guid>http://localhost:1313/posts/boot-image-extraction-guide/</guid>
+      <guid>https://krishnayadav.xyz/posts/boot-image-extraction-guide/</guid>
       <description>&lt;p&gt;Guide on how to extract a boot image from any Android phone [Requires Magisk and Computer]&lt;/p&gt;
 &lt;h2 id=&#34;getting-started&#34;&gt;Getting started!&lt;/h2&gt;
 &lt;p&gt;Accessing and modifying system files on your device typically requires superuser permissions. To extract the boot image, we&amp;rsquo;ll need a root environment. We&amp;rsquo;ll achieve this by using Magisk.&lt;/p&gt;
