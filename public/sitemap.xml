@@ -2,72 +2,81 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://krishnayadav.xyz/</loc>
+    <loc>http://localhost:1313/tags/android/</loc>
+    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/guide/</loc>
+    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/linux/</loc>
+    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/windows/</loc>
+    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/wsl2/</loc>
+    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/zram-in-wsl2/</loc>
+    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/nextcloud/</loc>
     <lastmod>2024-06-22T20:35:26+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/tags/nextcloud/</loc>
+    <loc>http://localhost:1313/tags/server/</loc>
     <lastmod>2024-06-22T20:35:26+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/posts/</loc>
+    <loc>http://localhost:1313/tags/ubuntu/</loc>
     <lastmod>2024-06-22T20:35:26+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/tags/server/</loc>
+    <loc>http://localhost:1313/posts/ubuntu-server-setup-part-2-installing-nextcloud/</loc>
     <lastmod>2024-06-22T20:35:26+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/tags/</loc>
-    <lastmod>2024-06-22T20:35:26+05:30</lastmod>
-  </url><url>
-    <loc>https://krishnayadav.xyz/tags/ubuntu/</loc>
-    <lastmod>2024-06-22T20:35:26+05:30</lastmod>
-  </url><url>
-    <loc>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</loc>
-    <lastmod>2024-06-22T20:35:26+05:30</lastmod>
-  </url><url>
-    <loc>https://krishnayadav.xyz/tags/android/</loc>
+    <loc>http://localhost:1313/tags/vm/</loc>
     <lastmod>2024-05-29T20:43:23+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/tags/guide/</loc>
+    <loc>http://localhost:1313/posts/whatsapp-without-phone/</loc>
     <lastmod>2024-05-29T20:43:23+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/tags/linux/</loc>
-    <lastmod>2024-05-29T20:43:23+05:30</lastmod>
-  </url><url>
-    <loc>https://krishnayadav.xyz/tags/vm/</loc>
-    <lastmod>2024-05-29T20:43:23+05:30</lastmod>
-  </url><url>
-    <loc>https://krishnayadav.xyz/posts/whatsapp-without-phone/</loc>
-    <lastmod>2024-05-29T20:43:23+05:30</lastmod>
-  </url><url>
-    <loc>https://krishnayadav.xyz/tags/rom/</loc>
+    <loc>http://localhost:1313/tags/rom/</loc>
     <lastmod>2024-05-26T21:05:20+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</loc>
+    <loc>http://localhost:1313/posts/sign-a-custom-rom-build/</loc>
     <lastmod>2024-05-26T21:05:20+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-1/</loc>
+    <loc>http://localhost:1313/posts/ubuntu-server-setup-part-1/</loc>
     <lastmod>2024-04-30T19:46:03+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/tags/rsync/</loc>
+    <loc>http://localhost:1313/tags/rsync/</loc>
     <lastmod>2024-04-26T09:28:58+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/tags/ssh/</loc>
+    <loc>http://localhost:1313/tags/ssh/</loc>
     <lastmod>2024-04-26T09:28:58+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/posts/use-ssh-or-rsync-with-android/</loc>
+    <loc>http://localhost:1313/posts/use-ssh-or-rsync-with-android/</loc>
     <lastmod>2024-04-26T09:28:58+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/posts/ubuntu-touch-port-part-1/</loc>
+    <loc>http://localhost:1313/posts/ubuntu-touch-port-part-1/</loc>
     <lastmod>2024-04-25T13:38:00+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/posts/boot-image-extraction-guide/</loc>
+    <loc>http://localhost:1313/posts/boot-image-extraction-guide/</loc>
     <lastmod>2024-04-24T21:53:31+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/archives/</loc>
+    <loc>http://localhost:1313/archives/</loc>
   </url><url>
-    <loc>https://krishnayadav.xyz/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
   </url><url>
-    <loc>https://krishnayadav.xyz/donate/</loc>
+    <loc>http://localhost:1313/donate/</loc>
   </url><url>
-    <loc>https://krishnayadav.xyz/search/</loc>
+    <loc>http://localhost:1313/search/</loc>
   </url>
 </urlset>

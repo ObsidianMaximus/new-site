@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Nextcloud on Krishna&#39;s Webplace</title>
-    <link>https://krishnayadav.xyz/tags/nextcloud/</link>
+    <link>http://localhost:1313/tags/nextcloud/</link>
     <description>Recent content in Nextcloud on Krishna&#39;s Webplace</description>
-    <generator>Hugo -- 0.139.3</generator>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
     <lastBuildDate>Sat, 22 Jun 2024 20:35:26 +0530</lastBuildDate>
-    <atom:link href="https://krishnayadav.xyz/tags/nextcloud/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/nextcloud/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ubuntu Server Setup Part 2: Installing Nextcloud</title>
-      <link>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</link>
+      <link>http://localhost:1313/posts/ubuntu-server-setup-part-2-installing-nextcloud/</link>
       <pubDate>Sat, 22 Jun 2024 20:35:26 +0530</pubDate>
-      <guid>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</guid>
+      <guid>http://localhost:1313/posts/ubuntu-server-setup-part-2-installing-nextcloud/</guid>
       <description>&lt;p&gt;I finally setup my Ubuntu server quite well along with wifi drivers.&lt;/p&gt;
 &lt;p&gt;Next up, I had to install Nextcloud, because I wanted a cloud storage that could backup and sync photos, videos and other stuff from several devices at my home. Thus I looked up a tutorial on it and found one by Jay, which was extremely easy to follow and helped me setup my Nextcloud instance from scratch.&lt;/p&gt;
 &lt;h3 id=&#34;the-steps-to-setup-nextcloud&#34;&gt;The steps to setup Nextcloud&lt;/h3&gt;

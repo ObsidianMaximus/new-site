@@ -1,6 +1,6 @@
 baseURL = "https://krishnayadav.xyz/"
 title = "Krishna's Webplace"
-paginate = 5
+#paginate = 5
 theme = "PaperMod"
 enableRobotsTXT = true
 buildDrafts = false

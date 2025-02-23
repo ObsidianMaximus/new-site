@@ -2,17 +2,133 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Krishna&#39;s Webplace</title>
-    <link>https://krishnayadav.xyz/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on Krishna&#39;s Webplace</description>
-    <generator>Hugo -- 0.139.3</generator>
+    <generator>Hugo -- 0.144.2</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Jun 2024 20:35:26 +0530</lastBuildDate>
-    <atom:link href="https://krishnayadav.xyz/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 20 Feb 2025 14:02:45 +0530</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ZRAM in WSL2</title>
+      <link>http://localhost:1313/posts/zram-in-wsl2/</link>
+      <pubDate>Thu, 20 Feb 2025 14:02:45 +0530</pubDate>
+      <guid>http://localhost:1313/posts/zram-in-wsl2/</guid>
+      <description>&lt;p&gt;If you have been using WSL2 on Windows, you would be quite surprised and satisfied at the same time for how well it works as a Linux CLI.&lt;/p&gt;
+&lt;p&gt;And so was I, because it allows you the convenience of Windows + the flexibility of Linux systems. It acts as a bridge between the two, and you can run Linux commands on Windows, and Windows commands on Linux.&lt;/p&gt;
+&lt;p&gt;For this reason, I use it to build custom ROMs for my Android devices. But with Android 15, the system requirements have been upped from 32gb to 64gb, and I have only 32gb of RAM on my desktop.&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>If you have been using WSL2 on Windows, you would be quite surprised and satisfied at the same time for how well it works as a Linux CLI.</p>
+<p>And so was I, because it allows you the convenience of Windows + the flexibility of Linux systems. It acts as a bridge between the two, and you can run Linux commands on Windows, and Windows commands on Linux.</p>
+<p>For this reason, I use it to build custom ROMs for my Android devices. But with Android 15, the system requirements have been upped from 32gb to 64gb, and I have only 32gb of RAM on my desktop.</p>
+<p>When I used to run Ubuntu, I used to use ZRAM to compress the memory and this allowed me to build A15. So I thought, why not use ZRAM in WSL2 as well?</p>
+<p>But ZRAM is a kernel module, and WSL2 doesn&rsquo;t have it built into the Linux kernel version 5.15.167.4-microsoft-standard-WSL2. So I had to find a workaround for this.</p>
+<p>First I tried modinfo zram, but it returned modinfo: ERROR: Module zram not found. But if you have it listed, try to load it with modprobe zram.</p>
+<p>But in my case, I had to build a custom kernel with ZRAM enabled. So I followed the steps below:</p>
+<ol>
+<li>First install the required packages in WSL2 to build the kernel:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install build-essential flex bison dwarves libssl-dev libelf-dev cpio bc zstd -y
+</span></span></code></pre></div><ol start="2">
+<li>Then clone the Linux kernel source code from the official Microsoft repository:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone --depth<span class="o">=</span><span class="m">1</span> https://github.com/microsoft/WSL2-Linux-Kernel.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> WSL2-Linux-Kernel
+</span></span></code></pre></div><ol start="3">
+<li>Now we must modify the kernel config to enable ZRAM. (But remember not to do so with the provided 6.6 kernel config in Microsoft/config-wsl.config, as that is known to break Docker, if you are using it with WSL2. If you don&rsquo;t use docker, you can simply copy that to working directory and rename it to .config, else follow as I am doing). Run:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -o .config https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/refs/heads/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl
+</span></span></code></pre></div><p>This gets the 6.1 kernel config that is known to also work with Docker desktop.</p>
+<ol start="4">
+<li>Then let&rsquo;s fire up the gui based kernel configuration tool:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">make menuconfig
+</span></span></code></pre></div><ol start="5">
+<li>This should open the menu. Navigate to the following place to enable ZSTD [or any other compression algorithm you prefer]:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Crypto API → Compression → &lt;*&gt; ZSTD compression algorithm
+</span></span><span class="line"><span class="cl">Cryptographic API ---&gt;
+</span></span><span class="line"><span class="cl">    Compression ---&gt;
+</span></span><span class="line"><span class="cl">        &lt;*&gt; zstd
+</span></span></code></pre></div><figure class="align-center ">
+    <img loading="lazy" src="/img/list_Webcam.png#center"/> 
+</figure>
+
+<ol start="6">
+<li>Go back to the main menu and navigate to the following place to enable ZRAM:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Device Drivers  ---&gt;
+</span></span><span class="line"><span class="cl">    <span class="o">[</span>*<span class="o">]</span> Block devices  ---&gt;
+</span></span><span class="line"><span class="cl">        &lt;*&gt; Compressed RAM block device support 
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>*<span class="o">]</span> Write back incompressible or idle page to backing device 
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>*<span class="o">]</span> Track zRam block status 
+</span></span></code></pre></div><p>Make sure to Change “Compressed RAM block device support” from M to *, if it was previously set to M. To change it, simply press ‘Y’ at this option. M means a kernel module that can be loaded separately, and &lsquo;Y&rsquo; means that it will be built-in. In WSL2 Loadable module support is disabled when using a custom built kernel. We must set any modules to be built-in before building.</p>
+<ol start="7">
+<li>In this same place under &ldquo;Compressed RAM block device support&rdquo;, you can also set the compression algorithm via the submenu &ldquo;Default ZRAM compressor&rdquo;. I set it to ZSTD.</li>
+</ol>
+<figure class="align-center ">
+    <img loading="lazy" src="/img/list_Webcam.png#center"/> 
+</figure>
+
+<ol start="8">
+<li>Finally save the config from bottom menu panel and exit. Let us now compile the kernel with:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">make -j<span class="k">$(</span>nproc<span class="k">)</span>
+</span></span></code></pre></div><p>This will take some time, so be patient. After it is done, we can find the compilled kernel in the arch/x86/boot/ directory. It will be named as <strong>bzImage</strong>.</p>
+<ol start="9">
+<li>Open the Windows file explorer and navigate to the WSL2 directory where you have the kernel compiled. Then copy the kernel to the Windows directory:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp arch/x86/boot/bzImage /mnt/c/Users/&lt;Your Windows Username&gt;/Downloads/
+</span></span></code></pre></div><p>Now we can move this image anywhere we want. I created a folder named &lsquo;.wsl-kernel&rsquo; in my C:\Users&lt;Username&gt; directory and moved it there.</p>
+<ol start="10">
+<li>The WSL2 kernel must also be overwritten with this new kernel. Simply go to the C:\Users&lt;Username&gt; location and create a .wslconfig file with the following content:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="p">[</span><span class="no">wsl2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">kernel</span><span class="p">=</span><span class="n">C:</span><span class="p">\\</span><span class="n">Users</span><span class="p">\\&lt;</span><span class="n">Username</span><span class="p">&gt;\\.</span><span class="nb">wsl-kernel</span><span class="p">\\</span><span class="n">bzImage</span>
+</span></span></code></pre></div><ol start="11">
+<li>Now we have to restart the WSL2 instance. You can do so by running:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="n">wsl</span> <span class="err">–</span><span class="n">shutdown</span>
+</span></span><span class="line"><span class="cl"><span class="n">wsl</span>
+</span></span></code></pre></div><p>Check the kernel version by running this command to verify that it is the one you compiled:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">uname -sr
+</span></span></code></pre></div><p>It should show the latest kernel version that you compiled. For example it shows me <strong>Linux 6.6.36.6-microsoft-standard-WSL2</strong>.</p>
+<ol start="12">
+<li>Although you have loaded the kernel, if you try checking for the zram module using modinfo, it will still not be there. We must first install the modules we built. Run this from the git repository we cloned:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo make modules_install
+</span></span><span class="line"><span class="cl"><span class="c1">#Now load them:</span>
+</span></span><span class="line"><span class="cl">sudo modprobe
+</span></span></code></pre></div><ol start="13">
+<li>If we now check for the zram module, it should be there. You can also check the zram devices with:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">modinfo zram
+</span></span></code></pre></div><ol start="14">
+<li>Now, we must enable zram to be accessible always on boot, i.e., make it persistent. To do so, we must create a systemd service. Run:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo nano /etc/systemd/system/zram.service
+</span></span></code></pre></div><p>Add the following content to the file:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">###REMEMBER! Change the 1G in ExecStart to whatever size of zram block device you wish to create.</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Unit<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Description</span><span class="o">=</span>Enable ZRAM Swap
+</span></span><span class="line"><span class="cl"><span class="nv">After</span><span class="o">=</span>multi-user.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Service<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Type</span><span class="o">=</span>oneshot
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStart</span><span class="o">=</span>/bin/bash -c <span class="s2">&#34;echo 1G &gt; /sys/block/zram0/disksize &amp;&amp; mkswap /dev/zram0 &amp;&amp; swapon /dev/zram0 -p 10&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">RemainAfterExit</span><span class="o">=</span><span class="nb">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Install<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</span></span></code></pre></div><p>Enable the service with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> zram.service
+</span></span><span class="line"><span class="cl">sudo systemctl start zram.service
+</span></span></code></pre></div><p><strong>Now ZRAM should be enabled and working on your WSL2 instance.</strong></p>
+]]></content:encoded>
+    </item>
     <item>
       <title>Ubuntu Server Setup Part 2: Installing Nextcloud</title>
-      <link>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</link>
+      <link>http://localhost:1313/posts/ubuntu-server-setup-part-2-installing-nextcloud/</link>
       <pubDate>Sat, 22 Jun 2024 20:35:26 +0530</pubDate>
-      <guid>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-2-installing-nextcloud/</guid>
+      <guid>http://localhost:1313/posts/ubuntu-server-setup-part-2-installing-nextcloud/</guid>
       <description>&lt;p&gt;I finally setup my Ubuntu server quite well along with wifi drivers.&lt;/p&gt;
 &lt;p&gt;Next up, I had to install Nextcloud, because I wanted a cloud storage that could backup and sync photos, videos and other stuff from several devices at my home. Thus I looked up a tutorial on it and found one by Jay, which was extremely easy to follow and helped me setup my Nextcloud instance from scratch.&lt;/p&gt;
 &lt;h3 id=&#34;the-steps-to-setup-nextcloud&#34;&gt;The steps to setup Nextcloud&lt;/h3&gt;
@@ -198,9 +314,9 @@
     </item>
     <item>
       <title>Whatsapp Without Phone</title>
-      <link>https://krishnayadav.xyz/posts/whatsapp-without-phone/</link>
+      <link>http://localhost:1313/posts/whatsapp-without-phone/</link>
       <pubDate>Wed, 29 May 2024 20:43:23 +0530</pubDate>
-      <guid>https://krishnayadav.xyz/posts/whatsapp-without-phone/</guid>
+      <guid>http://localhost:1313/posts/whatsapp-without-phone/</guid>
       <description>&lt;p&gt;I had stopped using whatsapp because I didn&amp;rsquo;t want to have it&amp;rsquo;s proprietary app on my de-googled device.&lt;/p&gt;
 &lt;h3 id=&#34;the-issue&#34;&gt;The Issue&lt;/h3&gt;
 &lt;p&gt;But you see, this application is used by most of my academic professors and other colleages, so I had to somehow use it (without the app on my phone, of course).&lt;/p&gt;
@@ -226,7 +342,7 @@
 </figure>
 
 <p>It required a &ldquo;Webcam Passthrough&rdquo;, so that the VM instance could access the USB camera.</p>
-<h3 id="steps-to-allow-webcam-passthrough-creditshttpsaskubuntucoma1237808">Steps to allow Webcam Passthrough [<a href="https://askubuntu.com/a/1237808">Credits</a>]:</h3>
+<h3 id="steps-to-allow-webcam-passthrough-credits">Steps to allow Webcam Passthrough [<a href="https://askubuntu.com/a/1237808">Credits</a>]:</h3>
 <ol>
 <li>
 <p>First install certain extra packages to get stuff working:</p>
@@ -255,9 +371,9 @@
     </item>
     <item>
       <title>Sign a Custom ROM Build</title>
-      <link>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</link>
+      <link>http://localhost:1313/posts/sign-a-custom-rom-build/</link>
       <pubDate>Sun, 26 May 2024 21:05:20 +0530</pubDate>
-      <guid>https://krishnayadav.xyz/posts/sign-a-custom-rom-build/</guid>
+      <guid>http://localhost:1313/posts/sign-a-custom-rom-build/</guid>
       <description>&lt;p&gt;This guide will explain how to &lt;strong&gt;sign&lt;/strong&gt; a Custom ROM build (typically unofficial builds, as most official ROMs are now shipping their own private keys).&lt;/p&gt;
 &lt;p&gt;I will use the &lt;a href=&#34;https://wiki.lineageos.org/signing_builds&#34;&gt;Lineage wiki guide&lt;/a&gt;, but simplify it in my own words at places where I feel this guide did not give more practical information to a new comer like me.&lt;/p&gt;
 &lt;h4 id=&#34;the-steps-to-generate-the-keys-are-as-follows&#34;&gt;The steps to generate the keys are as follows:&lt;/h4&gt;
@@ -324,9 +440,9 @@
     </item>
     <item>
       <title>Ubuntu Server Setup Part-1</title>
-      <link>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-1/</link>
+      <link>http://localhost:1313/posts/ubuntu-server-setup-part-1/</link>
       <pubDate>Tue, 30 Apr 2024 19:46:03 +0530</pubDate>
-      <guid>https://krishnayadav.xyz/posts/ubuntu-server-setup-part-1/</guid>
+      <guid>http://localhost:1313/posts/ubuntu-server-setup-part-1/</guid>
       <description>&lt;p&gt;I was wanting to learn on how to setup my servers and host stuff on them, but to host a server online, one needs to spend some amount of money on them, which i really didn&amp;rsquo;t want to. But then i remembered that i have one old dusty home computer that had been lying in my home since several years, while not really being used anymore.&lt;/p&gt;
 &lt;p&gt;So i decided to use this opportunity to reuse the same computer for my server tasks and in this way, i will be saving up on those server costs that i would have to pay [electricity is cheap here].&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>I was wanting to learn on how to setup my servers and host stuff on them, but to host a server online, one needs to spend some amount of money on them, which i really didn&rsquo;t want to. But then i remembered that i have one old dusty home computer that had been lying in my home since several years, while not really being used anymore.</p>
@@ -354,9 +470,9 @@ Executing the commands in the script installed all it&rsquo;s drivers. Now next,
     </item>
     <item>
       <title>Use SSH or Rsync With Android</title>
-      <link>https://krishnayadav.xyz/posts/use-ssh-or-rsync-with-android/</link>
+      <link>http://localhost:1313/posts/use-ssh-or-rsync-with-android/</link>
       <pubDate>Fri, 26 Apr 2024 09:28:58 +0530</pubDate>
-      <guid>https://krishnayadav.xyz/posts/use-ssh-or-rsync-with-android/</guid>
+      <guid>http://localhost:1313/posts/use-ssh-or-rsync-with-android/</guid>
       <description>&lt;p&gt;Today, I wanted to send a file from my desktop to my android device. I thought of using rsync for this purpose, which is a tool that I use frequently to sync files between my desktop and my laptop.&lt;/p&gt;
 &lt;p&gt;I thought of giving it a try and came across &lt;a href=&#34;https://howtos.davidsebek.com/android-rsync-termux.html&#34;&gt;this great article&lt;/a&gt; that explained just this.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE: This guide requires both the computer and the Android device to be on the same wifi network.&lt;/strong&gt;&lt;/p&gt;</description>
@@ -404,9 +520,9 @@ Executing the commands in the script installed all it&rsquo;s drivers. Now next,
     </item>
     <item>
       <title>Ubuntu Touch Port Part 1</title>
-      <link>https://krishnayadav.xyz/posts/ubuntu-touch-port-part-1/</link>
+      <link>http://localhost:1313/posts/ubuntu-touch-port-part-1/</link>
       <pubDate>Thu, 25 Apr 2024 13:38:00 +0530</pubDate>
-      <guid>https://krishnayadav.xyz/posts/ubuntu-touch-port-part-1/</guid>
+      <guid>http://localhost:1313/posts/ubuntu-touch-port-part-1/</guid>
       <description>&lt;h2 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h2&gt;
 &lt;p&gt;So I recently decided to get more involved in the Android world and came about a &amp;rsquo;new&amp;rsquo; type of OS, known as Ubuntu Touch. I thought a bit on it and decided to start the porting process for it for my device Realme GT Neo 2 [codenamed:bitra].&lt;/p&gt;
 &lt;p&gt;I started with the &lt;a href=&#34;https://docs.ubports.com/en/latest/porting/introduction/index.html&#34;&gt;official documentation of UBports&lt;/a&gt; where in they gave some good amount of introduction on how and why certain things needed to be done.&lt;/p&gt;</description>
@@ -442,9 +558,9 @@ Executing the commands in the script installed all it&rsquo;s drivers. Now next,
     </item>
     <item>
       <title>Boot Image Extraction Guide</title>
-      <link>https://krishnayadav.xyz/posts/boot-image-extraction-guide/</link>
+      <link>http://localhost:1313/posts/boot-image-extraction-guide/</link>
       <pubDate>Wed, 24 Apr 2024 21:53:31 +0530</pubDate>
-      <guid>https://krishnayadav.xyz/posts/boot-image-extraction-guide/</guid>
+      <guid>http://localhost:1313/posts/boot-image-extraction-guide/</guid>
       <description>&lt;p&gt;Guide on how to extract a boot image from any Android phone [Requires Magisk and Computer]&lt;/p&gt;
 &lt;h2 id=&#34;getting-started&#34;&gt;Getting started!&lt;/h2&gt;
 &lt;p&gt;Accessing and modifying system files on your device typically requires superuser permissions. To extract the boot image, we&amp;rsquo;ll need a root environment. We&amp;rsquo;ll achieve this by using Magisk.&lt;/p&gt;
@@ -497,16 +613,16 @@ Executing the commands in the script installed all it&rsquo;s drivers. Now next,
     </item>
     <item>
       <title>Donate</title>
-      <link>https://krishnayadav.xyz/donate/</link>
+      <link>http://localhost:1313/donate/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://krishnayadav.xyz/donate/</guid>
+      <guid>http://localhost:1313/donate/</guid>
       <description>&lt;p&gt;If you feel that my work has been valuable to you, I would greatly appreciate your support. Any contribution, big or small, helps me continue creating and sharing more meaningful content. Thank you for considering a donation!&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Paypal: &lt;strong&gt;&lt;a href=&#34;https://paypal.me/krishnayadavxyz&#34;&gt;Link&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;UPI: &lt;code&gt;obsidianmaximus@upi&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;figure class=&#34;align-center &#34;&gt;
-    &lt;img loading=&#34;lazy&#34; src=&#34;https://krishnayadav.xyz/upi.png#center&#34;
+    &lt;img loading=&#34;lazy&#34; src=&#34;http://localhost:1313/upi.png#center&#34;
          alt=&#34;UPI QR code&#34;/&gt; &lt;figcaption&gt;
             &lt;p&gt;UPI QR code&lt;/p&gt;
         &lt;/figcaption&gt;
@@ -516,7 +632,7 @@ Executing the commands in the script installed all it&rsquo;s drivers. Now next,
 &lt;li&gt;Monero:&lt;code&gt;46Es9cwspxoY9hhYMy2mdGLwxpYouLWANaBVWiUhhjE37Mr1bB65cU4C9cLkCiaw3hWVaZij7xZs4DrPVUFxTPy5CCkVvsr&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;figure class=&#34;align-center &#34;&gt;
-    &lt;img loading=&#34;lazy&#34; src=&#34;https://krishnayadav.xyz/Monero.png#center&#34;
+    &lt;img loading=&#34;lazy&#34; src=&#34;http://localhost:1313/Monero.png#center&#34;
          alt=&#34;Monero QR code&#34;/&gt; &lt;figcaption&gt;
             &lt;p&gt;Monero QR code&lt;/p&gt;
         &lt;/figcaption&gt;
