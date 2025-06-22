@@ -13,3 +13,11 @@ With this in config.yml [adapt it for toml as required] :
 params:
   assets:
     disableFingerprinting: true
+
+Always make sure to run the following command if wish to clone:
+
+```bash
+git clone --recurse-submodules -j8 git@github.com:ObsidianMaximus/new-site.git
+```
+
+And to update the submodule, follow: [Link](https://github.com/adityatelange/hugo-PaperMod/wiki/Installation#installingupdating-papermod)
