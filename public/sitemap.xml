@@ -2,22 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://krishnayadav.xyz/tags/bios/</loc>
+    <lastmod>2025-06-21T16:05:49+05:30</lastmod>
+  </url><url>
+    <loc>https://krishnayadav.xyz/posts/change-in-cpu-and-issues-with-ram/</loc>
+    <lastmod>2025-06-21T16:05:49+05:30</lastmod>
+  </url><url>
+    <loc>https://krishnayadav.xyz/tags/cpu/</loc>
+    <lastmod>2025-06-21T16:05:49+05:30</lastmod>
+  </url><url>
+    <loc>https://krishnayadav.xyz/</loc>
+    <lastmod>2025-06-21T16:05:49+05:30</lastmod>
+  </url><url>
+    <loc>https://krishnayadav.xyz/posts/</loc>
+    <lastmod>2025-06-21T16:05:49+05:30</lastmod>
+  </url><url>
+    <loc>https://krishnayadav.xyz/tags/ram/</loc>
+    <lastmod>2025-06-21T16:05:49+05:30</lastmod>
+  </url><url>
+    <loc>https://krishnayadav.xyz/tags/server/</loc>
+    <lastmod>2025-06-21T16:05:49+05:30</lastmod>
+  </url><url>
+    <loc>https://krishnayadav.xyz/tags/</loc>
+    <lastmod>2025-06-21T16:05:49+05:30</lastmod>
+  </url><url>
     <loc>https://krishnayadav.xyz/tags/android/</loc>
     <lastmod>2025-02-20T14:02:45+05:30</lastmod>
   </url><url>
     <loc>https://krishnayadav.xyz/tags/guide/</loc>
     <lastmod>2025-02-20T14:02:45+05:30</lastmod>
   </url><url>
-    <loc>https://krishnayadav.xyz/</loc>
-    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
-  </url><url>
     <loc>https://krishnayadav.xyz/tags/linux/</loc>
-    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
-  </url><url>
-    <loc>https://krishnayadav.xyz/posts/</loc>
-    <lastmod>2025-02-20T14:02:45+05:30</lastmod>
-  </url><url>
-    <loc>https://krishnayadav.xyz/tags/</loc>
     <lastmod>2025-02-20T14:02:45+05:30</lastmod>
   </url><url>
     <loc>https://krishnayadav.xyz/tags/windows/</loc>
@@ -30,9 +45,6 @@
     <lastmod>2025-02-20T14:02:45+05:30</lastmod>
   </url><url>
     <loc>https://krishnayadav.xyz/tags/nextcloud/</loc>
-    <lastmod>2024-06-22T20:35:26+05:30</lastmod>
-  </url><url>
-    <loc>https://krishnayadav.xyz/tags/server/</loc>
     <lastmod>2024-06-22T20:35:26+05:30</lastmod>
   </url><url>
     <loc>https://krishnayadav.xyz/tags/ubuntu/</loc>
